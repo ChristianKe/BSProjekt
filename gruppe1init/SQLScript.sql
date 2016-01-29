@@ -107,6 +107,23 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `gruppe1`.`Fahrzeugmodell`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `gruppe1`.`Fahrzeugmodell` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `Fahrzeugmarke_id` INT NOT NULL,
+  `Bezeichnung` VARCHAR(255) NULL,
+  PRIMARY KEY (`id`, `Fahrzeugmarke_id`),
+  INDEX `fk_Fahrzeugmodell_Fahrzeugmarke1_idx` (`Fahrzeugmarke_id` ASC),
+  CONSTRAINT `fk_Fahrzeugmodell_Fahrzeugmarke1`
+    FOREIGN KEY (`Fahrzeugmarke_id`)
+    REFERENCES `gruppe1`.`Fahrzeugmarke` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `gruppe1`.`Fahrzeug`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `gruppe1`.`Fahrzeug` (
@@ -116,10 +133,12 @@ CREATE TABLE IF NOT EXISTS `gruppe1`.`Fahrzeug` (
   `fahrgestellNummer` VARCHAR(255) NOT NULL,
   `Kunde_id` INT NOT NULL,
   `Fahrzeugmarke_id` INT NOT NULL,
-  PRIMARY KEY (`id`, `Fahrzeugtyp_id`, `Kunde_id`, `Fahrzeugmarke_id`, `fahrgestellNummer`),
+  `Fahrzeugmodell_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `Fahrzeugtyp_id`, `Kunde_id`, `Fahrzeugmarke_id`, `fahrgestellNummer`, `Fahrzeugmodell_id`),
   INDEX `fk_Fahrzeug_Fahrzeugtyp1_idx` (`Fahrzeugtyp_id` ASC),
   INDEX `fk_Fahrzeug_Kunde1_idx` (`Kunde_id` ASC),
   INDEX `fk_Fahrzeug_Fahrzeugmarke1_idx` (`Fahrzeugmarke_id` ASC),
+  INDEX `fk_Fahrzeug_Fahrzeugmodell1_idx` (`Fahrzeugmodell_id` ASC),
   CONSTRAINT `fk_Fahrzeug_Fahrzeugtyp1`
     FOREIGN KEY (`Fahrzeugtyp_id`)
     REFERENCES `gruppe1`.`Fahrzeugtyp` (`id`)
@@ -133,6 +152,11 @@ CREATE TABLE IF NOT EXISTS `gruppe1`.`Fahrzeug` (
   CONSTRAINT `fk_Fahrzeug_Fahrzeugmarke1`
     FOREIGN KEY (`Fahrzeugmarke_id`)
     REFERENCES `gruppe1`.`Fahrzeugmarke` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Fahrzeug_Fahrzeugmodell1`
+    FOREIGN KEY (`Fahrzeugmodell_id`)
+    REFERENCES `gruppe1`.`Fahrzeugmodell` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -248,7 +272,35 @@ BEGIN
 	INNER JOIN Usergroup ug
 	ON u.Usergroup_id = ug.id
 	WHERE u.userName = inUserName AND u.userPassword = SHA1(inUserPassword);
-END ;
+END;
+
+-- -----------------------------------------------------
+-- procedure getModelsToBrand
+-- -----------------------------------------------------
+
+CREATE PROCEDURE getModelsToBrand
+(IN inFahrzeugmarke int)
+BEGIN
+	SELECT *
+	FROM Fahrzeugmodell
+	WHERE Fahrzeugmarke_id = id;
+END;
+
+-- -----------------------------------------------------
+-- procedure addUser
+-- -----------------------------------------------------
+
+CREATE PROCEDURE `addUser`
+(IN inUserName varchar(255),
+ IN inUserPassword varchar(255),
+ IN inName varchar(255),
+ IN inVorname varchar(255),
+ IN inUsergroupId int)
+BEGIN
+	INSERT INTO User (userName, userPassword, Name, Vorname, Usergroup_Id)
+	VALUES (inUserName, SHA1(inUserPassword), inName, inVorname, inUsergroupId);
+
+END;
 
 -- -----------------------------------------------------
 -- procedure getVehicleData
@@ -266,23 +318,7 @@ BEGIN
 	INNER JOIN Kunde k
 		ON f.Kunde_id = k.id
 	WHERE f.fahrgestellNummer = inFahrgestellNummer;
-END ;
-
--- -----------------------------------------------------
--- procedure addUser
--- -----------------------------------------------------
-
-CREATE PROCEDURE `addUser`
-(IN inUserName varchar(255),
- IN inUserPassword varchar(255),
- IN inName varchar(255),
- IN inVorname varchar(255),
- IN inUsergroupId int)
-BEGIN
-	INSERT INTO User (userName, userPassword, Name, Vorname, Usergroup_Id)
-	VALUES (inUserName, SHA1(inUserPassword), inName, inVorname, inUsergroupId);
-
-END ;
+END;
 
 -- -----------------------------------------------------
 -- View `gruppe1`.`allVehicles`
