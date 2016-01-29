@@ -32,8 +32,8 @@ public class DatabaseRessourres {
 			arrayList = new ArrayList<>();
 			arrayList.add("");
 			while (resultSet.next()) {
-				String string3 = resultSet.getString("id") + "_" + resultSet.getString("typBezeichnung");
-				arrayList.add(string3);
+				String string1 = resultSet.getString("id") + "_" + resultSet.getString("typBezeichnung");
+				arrayList.add(string1);
 			}
 			
 		} catch (ClassNotFoundException | SQLException | IOException e) {
@@ -68,8 +68,8 @@ public class DatabaseRessourres {
 			arrayList = new ArrayList<>();
 			arrayList.add("");
 			while (resultSet.next()) {
-				String string3 = resultSet.getString("id") + "_" + resultSet.getString("bezeichnung");
-				arrayList.add(string3);
+				String string2 = resultSet.getString("id") + "_" + resultSet.getString("bezeichnung");
+				arrayList.add(string2);
 			}
 			
 		} catch (ClassNotFoundException | SQLException | IOException e) {
@@ -89,10 +89,32 @@ public class DatabaseRessourres {
 	}
 	
 	
-	public static String[] getModelFropmDatabase(String marke) {
-		
-		
-		return null;
+	public static String[] getModelFromDatabase(int markenId) {
+		ArrayList<String> arrayList = null;
+		ResultSet resultSet = null;
+		Connection connection = null;
+		PreparedStatement statement = null;
+
+		try {
+			connection = ConnectionUtil.getConnection();
+			StringBuilder sb = new StringBuilder();
+			sb.append("select *   ").append("where marke = ").append(markenId);
+			statement = connection.prepareStatement(sb.toString());
+			resultSet = statement.executeQuery();
+
+			arrayList = new ArrayList<>();
+			arrayList.add("");
+			while (resultSet.next()) {
+				String string3 = resultSet.getString("id") + "_"
+						+ resultSet.getString("");
+				arrayList.add(string3);
+			}
+
+		} catch (ClassNotFoundException | SQLException | IOException e) {
+			e.printStackTrace();
+		}
+
+		return arrayList.toArray(new String[arrayList.size()]);
 	}
 
 }

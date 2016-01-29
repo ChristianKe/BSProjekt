@@ -92,12 +92,12 @@ public class NFF extends JFrame {
 		fahrzeugPanel.setLayout(new GridLayout(4, 1));
 		fahrzeugPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		
-//		String[] marken = LR.MARKEN;
 		String[] marken = DatabaseRessourres.getMarkenFromDatabase();
 		String[] baujahrArray = createConstructionYears();
 		int currentIndex = 0;
 		String[] model = LR.MODEL[currentIndex];
-//		String[] typen = LR.FAHRZEUGTYPEN; 
+		
+//		String[] model = DatabaseRessourres.getModelFromDatabase(currentIndex);
 		String[] typenNeu = DatabaseRessourres.getTypesFromDatabase(); // TODO NEU
 		String[] leistungArray = createPowerNumbers();
 		String[] kmStandArray = createKilometerNumber();
@@ -213,6 +213,7 @@ public class NFF extends JFrame {
 			public void actionPerformed(ActionEvent e){
 				marke = (String) comboMarke.getSelectedItem();
 				markenNummer = comboMarke.getSelectedIndex();
+				System.out.println(marke + " "+ markenNummer);
 				updateComboBoxModel(comboModel, markenNummer);
 				inputData.add(marke);
 			}
