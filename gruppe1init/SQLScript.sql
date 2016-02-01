@@ -272,7 +272,7 @@ BEGIN
 	INNER JOIN Usergroup ug
 	ON u.Usergroup_id = ug.id
 	WHERE u.userName = inUserName AND u.userPassword = SHA1(inUserPassword);
-END;
+END ;
 
 -- -----------------------------------------------------
 -- procedure getModelsToBrand
