@@ -1,4 +1,4 @@
-package Ressources;
+package Database;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import FZAControl.ConnectionUtil;
+import GUIFZAApp.Fahrzeug;
 
 public class DatabaseRessourres {
 	
@@ -32,7 +33,7 @@ public class DatabaseRessourres {
 			arrayList = new ArrayList<>();
 			arrayList.add("");
 			while (resultSet.next()) {
-				String string1 = resultSet.getString("id") + "_" + resultSet.getString("typBezeichnung");
+				String string1 = resultSet.getString("typBezeichnung");
 				arrayList.add(string1);
 			}
 			
@@ -68,7 +69,7 @@ public class DatabaseRessourres {
 			arrayList = new ArrayList<>();
 			arrayList.add("");
 			while (resultSet.next()) {
-				String string2 = resultSet.getString("id") + "_" + resultSet.getString("bezeichnung");
+				String string2 = resultSet.getString("bezeichnung");
 				arrayList.add(string2);
 			}
 			
@@ -98,15 +99,14 @@ public class DatabaseRessourres {
 		try {
 			connection = ConnectionUtil.getConnection();
 			StringBuilder sb = new StringBuilder();
-			sb.append("select *   ").append("where marke = ").append(markenId);
+			sb.append("select * from fahrzeugmodell ").append("where Fahrzeugmarke_id = ").append(markenId);
 			statement = connection.prepareStatement(sb.toString());
 			resultSet = statement.executeQuery();
 
 			arrayList = new ArrayList<>();
 			arrayList.add("");
 			while (resultSet.next()) {
-				String string3 = resultSet.getString("id") + "_"
-						+ resultSet.getString("");
+				String string3 = resultSet.getString("Bezeichnung");
 				arrayList.add(string3);
 			}
 
@@ -115,6 +115,14 @@ public class DatabaseRessourres {
 		}
 
 		return arrayList.toArray(new String[arrayList.size()]);
+	}
+	
+	
+	
+	public static Fahrzeug getFahrzeugFromDatabase(String fahrgestellNummer) {
+		Fahrzeug fahrzeug = null;
+		
+		return fahrzeug;
 	}
 
 }

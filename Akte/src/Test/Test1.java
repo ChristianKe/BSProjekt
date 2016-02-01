@@ -4,12 +4,13 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import Ressources.DatabaseRessourres;
+import Database.DatabaseRessourres;
 
 public class Test1 {
 
 	String[] typenFromDatabase = null;
 	String[] markenFromDatabase = null;
+	String[] modellFromDatabase = null;
 	
 	@Test
 	public void testGetTypesFromDatabase() {
@@ -29,6 +30,14 @@ public class Test1 {
 		}
 	}
 	
+	@Test
+	public void testGetModelFromDatabase() {
+		modellFromDatabase = DatabaseRessourres.getModelFromDatabase(2);
+		assertTrue("Test2", modellFromDatabase.length > 0);
+		for (String vo : modellFromDatabase) {
+			System.out.println(vo.toString());
+		}
+	}
 
 
 }

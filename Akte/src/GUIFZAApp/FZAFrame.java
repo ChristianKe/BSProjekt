@@ -270,17 +270,41 @@ public class FZAFrame extends JFrame  {
 		
 		contentPane.add(westPanel, BorderLayout.WEST);
 		
-		// Nur admin mit manager-Rechten TODO
+		JPanel southPanel = new JPanel();
+		southPanel.setLayout(new GridLayout(1, southCols));
+		// Admin mit manager-Rechten 
 		if(currentUser.isManageUser()) {
 			
-			JPanel southPanel = new JPanel();
-			southPanel.setLayout(new GridLayout(1, southCols));
 			
 			southPanel.add(new JLabel());
 			southPanel.add(neuerUser);
 			southPanel.add(userBearbeiten);
 			southPanel.add(neuesFahrzeug);
 			southPanel.add(fahrzeugBearbeiten);
+			southPanel.add(new JLabel());
+			
+			contentPane.add(southPanel, BorderLayout.SOUTH);
+			
+			//ReaWrite-Access 
+		} else if (currentUser.isWriteAccess()) {
+						
+			southPanel.add(new JLabel());
+			southPanel.add(new JLabel());
+			southPanel.add(new JLabel());
+			southPanel.add(neuesFahrzeug);
+			southPanel.add(fahrzeugBearbeiten);
+			southPanel.add(new JLabel());
+			
+			contentPane.add(southPanel, BorderLayout.SOUTH);
+			
+			// Write-Access
+		} else if (currentUser.isReadAccess()) {
+			
+			southPanel.add(new JLabel());
+			southPanel.add(new JLabel());
+			southPanel.add(new JLabel());
+			southPanel.add(new JLabel());
+			southPanel.add(new JLabel());
 			southPanel.add(new JLabel());
 			
 			contentPane.add(southPanel, BorderLayout.SOUTH);
@@ -363,6 +387,7 @@ public class FZAFrame extends JFrame  {
 		if (StringUtils.isEmptyOrWhitespaceOnly(fahrgestellnummer)) {
 		notifyUserInvalidParameter();	
 		} else {
+			
 			if (true) {
 				notifyUserEmptyResult(fahrgestellnummer);
 			} else {

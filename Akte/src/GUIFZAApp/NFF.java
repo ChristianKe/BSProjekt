@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -31,7 +34,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import Ressources.DatabaseRessourres;
+import Database.DatabaseRessourres;
 
 import com.mysql.jdbc.StringUtils;
 
@@ -63,15 +66,13 @@ public class NFF extends JFrame {
 
 	private String baujahr;
 	private String marke;
-	private int modelNummer;
 	private int markenNummer;
 	private String modelBezeichnung;
 	private String typ;
-	private String kraftstoff;
 	private String kmStand;
 	private String leistung;
 	
-	private ArrayList<String> inputData;
+	private Map<Integer,String> inputData;
 	
 	private JButton okButton;
 
@@ -95,10 +96,9 @@ public class NFF extends JFrame {
 		String[] marken = DatabaseRessourres.getMarkenFromDatabase();
 		String[] baujahrArray = createConstructionYears();
 		int currentIndex = 0;
-		String[] model = LR.MODEL[currentIndex];
 		
-//		String[] model = DatabaseRessourres.getModelFromDatabase(currentIndex);
-		String[] typenNeu = DatabaseRessourres.getTypesFromDatabase(); // TODO NEU
+		String[] model = DatabaseRessourres.getModelFromDatabase(currentIndex);
+		String[] typenNeu = DatabaseRessourres.getTypesFromDatabase(); 
 		String[] leistungArray = createPowerNumbers();
 		String[] kmStandArray = createKilometerNumber();
 		
@@ -131,8 +131,8 @@ public class NFF extends JFrame {
 		fahrzeugPanel.add(comboKMstand);
 	
 		
-	    benzin = new JRadioButton("Benzin", true);
-	    kraftstoff = "Benzin";
+	    benzin = new JRadioButton("Benzin");
+	    benzin.setSelected(true);
 	    diesel = new JRadioButton("Diesel");
 	    fahrzeugPanel.add(new JLabel());
 	    fahrzeugPanel.add(diesel);
@@ -206,16 +206,17 @@ public class NFF extends JFrame {
 		contentPane.add(northPanel, BorderLayout.NORTH);
 		contentPane.add(tabbed, BorderLayout.CENTER);
 		contentPane.add(southPanel, BorderLayout.SOUTH);
-		inputData = new ArrayList<>();
+		
+		inputData = new HashMap<>();
+		
 		// ActionListener-Registrierung der ComboBoxen
 		comboMarke.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
 				marke = (String) comboMarke.getSelectedItem();
 				markenNummer = comboMarke.getSelectedIndex();
-				System.out.println(marke + " "+ markenNummer);
 				updateComboBoxModel(comboModel, markenNummer);
-				inputData.add(marke);
+				inputData.put(1, marke);
 			}
 		});
 		
@@ -223,14 +224,14 @@ public class NFF extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e){
 				baujahr = (String) combobauJahr.getSelectedItem();
-				inputData.add(baujahr);
+				inputData.put(2, baujahr);
 			}
 		});
 		
 		comboModel.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				modelNummer = comboModel.getSelectedIndex();
+				modelBezeichnung = (String)comboModel.getSelectedItem();
 			}
 		});
 		
@@ -238,7 +239,7 @@ public class NFF extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e){
 				typ = (String) comboTyp.getSelectedItem();
-				inputData.add(typ);
+				inputData.put(3,typ);
 			}
 		});
 		
@@ -246,7 +247,7 @@ public class NFF extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e){
 				kmStand = (String) comboKMstand.getSelectedItem();
-				inputData.add(kmStand);
+				inputData.put(4, kmStand);
 			}
 		});
 		
@@ -254,25 +255,23 @@ public class NFF extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e){
 				leistung = (String) comboLeistung.getSelectedItem();
-				inputData.add(leistung);
+				inputData.put(5, leistung);
 			}
 		});
 	    
 	    diesel.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                benzin.setSelected(false);
-                kraftstoff = "Diesel";
-                inputData.add(kraftstoff);
+            	benzin.setSelected(false);
+            	inputData.put(6, "Diesel");
             }
         });
 	    benzin.addActionListener(new ActionListener(){
         	@Override
             public void actionPerformed(ActionEvent e){
         		diesel.setSelected(false);
-                kraftstoff = "Benzin";
-                inputData.add(kraftstoff);
-            }
+        		inputData.put(7, "Benzin");            
+        		}
         });
 		
 	    okButton.addActionListener(new ActionListener(){
@@ -283,7 +282,8 @@ public class NFF extends JFrame {
 					// TODO Methode zum Abspeichern
 					confirmationMessage(languageType, inputData);
 					closeNeuesFahrzeug();
-				} else {
+				} else 
+					{
 					JOptionPane.showMessageDialog(null, LR.HILFE[0][languageType], LR.MELDUNG[1][languageType],
 							JOptionPane.ERROR_MESSAGE);
 				}
@@ -297,23 +297,27 @@ public class NFF extends JFrame {
 	} // ende Konstruktor
 	
 	
+	
+	
 	// Bestätigung
-	private void confirmationMessage(int pLanguageType, ArrayList<String> pInputData) {
+	private void confirmationMessage(int pLanguageType, Map<Integer, String> pInputData) {
+		String kuFahrgestellNummer = pInputData.get(new Integer(10));
+		String kuVorname = pInputData.get(new Integer(11));
 		String text = LR.MELDUNG[3][pLanguageType];
 		JOptionPane.showMessageDialog(null, text, null, JOptionPane.INFORMATION_MESSAGE);
 		
 	}
 
 	private void completeInputData() {
-		modelBezeichnung = getModelBezeichnung(markenNummer, modelNummer);
-		inputData.add(modelBezeichnung);
-		inputData.add(fahrgeNummer.getText());
-		inputData.add(amtlichesKennzeichen.getText());
-		inputData.add(kundeName.getText());
-		inputData.add(kundeVorname.getText());
-		inputData.add(kundeAdresse.getText());
-		inputData.add(plzNummer.getText());
-		inputData.add(ortName.getText());
+		inputData.put(8, modelBezeichnung);
+		inputData.put(9 , fahrgeNummer.getText());
+		inputData.put(10, amtlichesKennzeichen.getText());
+		inputData.put(11, kundeName.getText());
+		inputData.put(12, kundeVorname.getText());
+		inputData.put(13, kundeAdresse.getText());
+		inputData.put(14, firmaName.getText()); 
+		inputData.put(15, plzNummer.getText());
+		inputData.put(16, ortName.getText());
 	}
 
 	// schließen des Eingabe dialogs
@@ -405,27 +409,27 @@ public class NFF extends JFrame {
 		return baujahrArray;
 	}
 	
-	// liefert zu Markennummer und Modelnummer die Modelbezeichnung
-	private String getModelBezeichnung(int pMarkenNummer, int pModelNummer2) {
-		return LR.MODEL[pMarkenNummer][pModelNummer2];
-	}
 	
 	// prüft ob alle Felder gesetzt sind
-	private boolean checkInput(int pLanguageType, ArrayList<String> data) {
+	private boolean checkInput(int pLanguageType, Map<Integer, String> data) {
 		boolean invalid = true;
-		for (int i = 0; i < data.size(); i++) {
-			if (StringUtils.isEmptyOrWhitespaceOnly(data.get(i))) {
-				invalid = false;
-				break;
+		for (Entry<Integer, String> vo : data.entrySet()) {
+			if (!vo.getKey().equals(new Integer(14))) {
+				if (StringUtils.isEmptyOrWhitespaceOnly(vo.getValue())) {
+					invalid = false;
+					break;
+				}
 			}
+			
 		}
+	
 		return invalid;
 	}
 
 	// Liefert zur Marke die passenden Modelle
 	private void updateComboBoxModel(JComboBox<String> comboModel, int selectedIndex) {
 		comboModel.removeAllItems();
-		String[] newModels = LR.MODEL[selectedIndex];
+		String[] newModels = DatabaseRessourres.getModelFromDatabase(selectedIndex);
 		for (int i = 0; i < newModels.length; i++) {
 			comboModel.addItem(newModels[i]);
 		}

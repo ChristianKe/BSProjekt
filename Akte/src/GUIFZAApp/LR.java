@@ -24,7 +24,7 @@ public class LR {
 	protected static final String[][] NEUESFAHRZEUG = {{"Neues Fahrzeug", "New vehicle"}, {"Neues Fahrzeug anlegen", "Create new vehicle"}, {"Anlegen", "Save"}};
 	protected static final String[][] FAHRZEUGBEARBEITEN = {{"Fahrzeug bearbeiten", "Edit vehicle"}, {"Existierendes Fahrzeug bearbeiten", "Edit existing vehicle"}};
 	protected static final String[][] YESNOOPTIONS = {{"Ja", "Nein"}, {"Yes", "No"}};
-	protected static final String[][] MELDUNG = {{"Ungültige Fahrgestellnummer!", "Invalid VIN!"}, {"Achtung!", "Attention!"}, {"Kein Fahrzeug gefunden zu:\n", "No results available for:\n"}, {"Fahrzeug angelegt", "Vehicle successfully creatd"}};
+	protected static final String[][] MELDUNG = {{"Ungültige Fahrgestellnummer!", "Invalid VIN!"}, {"Achtung!", "Attention!"}, {"Kein Fahrzeug gefunden zu:\n", "No results available for:\n"}, {"Fahrzeug angelegt", "Vehicle successfully created"}};
 	protected static final String[] DEFAULTVALUES = {"Keine Fahrzeugdaten geladen", "No vehicle data loaded"};
 	protected static final String[][] HILFE = {{"Mit * markierte Felder sind Pflichtfelder.\n", "Fields marked with an asterisk* are obligatory.\n"},
 				{"Die Benutzer-Gruppen sind:\n", "User groups:\n"}, 
