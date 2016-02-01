@@ -75,15 +75,16 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `gruppe1`.`Kunde` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `Name` VARCHAR(255) NULL,
-  `Vorname` VARCHAR(255) NULL,
-  `Kunde_seit` DATETIME NULL,
+  `Name` VARCHAR(255) NOT NULL,
+  `Vorname` VARCHAR(255) NOT NULL,
   `Ort_id` INT NOT NULL,
   `PLZ_id` INT NOT NULL,
   `Firma` VARCHAR(255) NULL,
+  `Straße` VARCHAR(255) NULL,
   PRIMARY KEY (`id`, `Ort_id`, `PLZ_id`),
   INDEX `fk_Kunde_Ort1_idx` (`Ort_id` ASC),
   INDEX `fk_Kunde_PLZ1_idx` (`PLZ_id` ASC),
+  UNIQUE INDEX `kundenName` (`Name` ASC, `Vorname` ASC),
   CONSTRAINT `fk_Kunde_Ort1`
     FOREIGN KEY (`Ort_id`)
     REFERENCES `gruppe1`.`Ort` (`id`)
@@ -125,6 +126,16 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `gruppe1`.`Kraftstoff`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `gruppe1`.`Kraftstoff` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `Bezeichnung` VARCHAR(255) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `gruppe1`.`Fahrzeug`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `gruppe1`.`Fahrzeug` (
@@ -137,11 +148,13 @@ CREATE TABLE IF NOT EXISTS `gruppe1`.`Fahrzeug` (
   `Fahrzeugmodell_id` INT NOT NULL,
   `Kilometerstand` INT NULL,
   `Leistung_KW` INT NULL,
-  PRIMARY KEY (`id`, `Fahrzeugtyp_id`, `Kunde_id`, `Fahrzeugmarke_id`, `fahrgestellNummer`, `Fahrzeugmodell_id`),
+  `Kraftstoff_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `Fahrzeugtyp_id`, `Kunde_id`, `Fahrzeugmarke_id`, `fahrgestellNummer`, `Fahrzeugmodell_id`, `Kraftstoff_id`),
   INDEX `fk_Fahrzeug_Fahrzeugtyp1_idx` (`Fahrzeugtyp_id` ASC),
   INDEX `fk_Fahrzeug_Kunde1_idx` (`Kunde_id` ASC),
   INDEX `fk_Fahrzeug_Fahrzeugmarke1_idx` (`Fahrzeugmarke_id` ASC),
   INDEX `fk_Fahrzeug_Fahrzeugmodell1_idx` (`Fahrzeugmodell_id` ASC),
+  INDEX `fk_Fahrzeug_Kraftstoff1_idx` (`Kraftstoff_id` ASC),
   CONSTRAINT `fk_Fahrzeug_Fahrzeugtyp1`
     FOREIGN KEY (`Fahrzeugtyp_id`)
     REFERENCES `gruppe1`.`Fahrzeugtyp` (`id`)
@@ -160,6 +173,11 @@ CREATE TABLE IF NOT EXISTS `gruppe1`.`Fahrzeug` (
   CONSTRAINT `fk_Fahrzeug_Fahrzeugmodell1`
     FOREIGN KEY (`Fahrzeugmodell_id`)
     REFERENCES `gruppe1`.`Fahrzeugmodell` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Fahrzeug_Kraftstoff1`
+    FOREIGN KEY (`Kraftstoff_id`)
+    REFERENCES `gruppe1`.`Kraftstoff` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -235,7 +253,7 @@ USE `gruppe1` ;
 -- -----------------------------------------------------
 -- Placeholder table for view `gruppe1`.`allVehicles`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `gruppe1`.`allVehicles` (`id` INT, `fahrgestellNummer` INT, `produktionsdatum` INT, `typBezeichnung` INT, `bezeichnung` INT);
+CREATE TABLE IF NOT EXISTS `gruppe1`.`allVehicles` (`id` INT, `fahrgestellNummer` INT, `produktionsdatum` INT, `Kilometerstand` INT, `Leistung_KW` INT, `Kraftstoff` INT, `Typ` INT, `Marke` INT, `Modell` INT, `Name` INT, `Vorname` INT, `Straße` INT, `plz` INT, `ort` INT, `firma` INT);
 
 -- -----------------------------------------------------
 -- Placeholder table for view `gruppe1`.`allServiceevents`
@@ -245,7 +263,7 @@ CREATE TABLE IF NOT EXISTS `gruppe1`.`allServiceevents` (`id` INT, `datum` INT, 
 -- -----------------------------------------------------
 -- Placeholder table for view `gruppe1`.`allCustomers`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `gruppe1`.`allCustomers` (`Name` INT, `Vorname` INT, `Kunde_seit` INT, `ort` INT, `plz` INT);
+CREATE TABLE IF NOT EXISTS `gruppe1`.`allCustomers` (`Name` INT, `Vorname` INT, `ort` INT, `plz` INT, `Straße` INT, `Firma` INT);
 
 -- -----------------------------------------------------
 -- Placeholder table for view `gruppe1`.`allVehicleTypes`
@@ -287,7 +305,7 @@ BEGIN
 	SELECT *
 	FROM Fahrzeugmodell
 	WHERE Fahrzeugmarke_id = id;
-END;
+END ;
 
 -- -----------------------------------------------------
 -- procedure addUser
@@ -321,7 +339,7 @@ BEGIN
 	INNER JOIN Kunde k
 		ON f.Kunde_id = k.id
 	WHERE f.fahrgestellNummer = inFahrgestellNummer;
-END;
+END ;
 
 -- -----------------------------------------------------
 -- procedure addVehicle
@@ -335,7 +353,8 @@ CREATE PROCEDURE `addVehicle`
  IN inMarke int,
  IN inModell int,
  in inKmStand int,
- in inLeistungKW int)
+ in inLeistungKW int,
+ in inKraftstoff int)
 BEGIN
     INSERT INTO Fahrzeug ( produktionsdatum,
 						   Fahrzeugtyp_id,
@@ -344,7 +363,8 @@ BEGIN
 						   Fahrzeugmarke_id,
 						   Fahrzeugmodell_id,
 						   Kilometerstand,
-						   Leistung_KW )
+						   Leistung_KW,
+						   Kraftstoff_id )
 	VALUES( inProdDatum,
 			inTyp,
 			inFahrgestellNummer,
@@ -352,7 +372,8 @@ BEGIN
 			inMarke,
 			inModell,
 			inKmStand,
-			inLeistung );
+			inLeistungKW,
+			inKraftstoff );
 
 END;
 
@@ -365,29 +386,31 @@ CREATE PROCEDURE `addCustomer`
  IN inVorname varchar(255),
  IN inOrt varchar(255),
  IN inPLZ varchar(5),
- IN inFirma varchar(255))
+ IN inAddress varchar(255),
+ IN inFirma varchar(255) )
 BEGIN
 
-	INSERT INTO Ort (ort)
+	INSERT IGNORE INTO Ort (ort)
 	VALUES (inOrt);
 
-	SELECT @ort_id = o.id FROM Ort o WHERE o.ort=inOrt;
-
-	INSERT INTO PLZ (plz)
+	INSERT IGNORE INTO PLZ (plz)
 	VALUES (inPLZ);
 
-	SELECT @plz_id = p.id FROM PLZ p WHERE p.plz = inPLZ;
+	SET @plz_id = ( SELECT p.id FROM PLZ p WHERE p.plz=inPLZ );
+	SET @ort_id = ( SELECT o.id FROM Ort o WHERE o.ort=inOrt );
 
 	INSERT INTO Kunde (Name,
 					   Vorname,
 					   Ort_id,
 					   PLZ_id,
-					   Firma)
+					   Firma,
+					   Straße )
 	VALUES( inName,
 			inVorname,
 			@ort_id,
 			@plz_id,
-			inFirma );
+			inFirma,
+			inAddress );
 
 END;
 
@@ -397,12 +420,36 @@ END;
 DROP TABLE IF EXISTS `gruppe1`.`allVehicles`;
 USE `gruppe1`;
 CREATE  OR REPLACE VIEW `allVehicles` AS
-SELECT f.id, f.fahrgestellNummer, f.produktionsdatum, ft.typBezeichnung, fm.bezeichnung
+SELECT f.id,
+		f.fahrgestellNummer,
+		f.produktionsdatum,
+		f.Kilometerstand,
+		f.Leistung_KW,
+		ks.Bezeichnung AS Kraftstoff,
+		ft.typBezeichnung AS Typ,
+		fm.bezeichnung AS Marke,
+		fmod.bezeichnung AS Modell,
+		k.Name,
+		k.Vorname,
+		k.Straße,
+		p.plz,
+		o.ort,
+		k.firma
 FROM Fahrzeug f
 INNER JOIN Fahrzeugtyp ft
 ON f.Fahrzeugtyp_id = ft.id
 INNER JOIN Fahrzeugmarke fm
-ON f.Fahrzeugmarke_id = fm.id;
+ON f.Fahrzeugmarke_id = fm.id
+INNER JOIN Fahrzeugmodell fmod
+ON f.Fahrzeugmodell_id = fmod.id
+INNER JOIN Kunde k
+ON f.Kunde_id = k.id
+INNER JOIN Ort o
+ON k.Ort_id = o.id
+INNER JOIN PLZ p
+ON k.PLZ_id = p.id
+INNER JOIN Kraftstoff ks
+ON f.Kraftstoff_id = ks.id;
 
 -- -----------------------------------------------------
 -- View `gruppe1`.`allServiceevents`
@@ -419,7 +466,7 @@ FROM Serviceevents;
 DROP TABLE IF EXISTS `gruppe1`.`allCustomers`;
 USE `gruppe1`;
 CREATE  OR REPLACE VIEW `allCustomers` AS
-SELECT k.Name, k.Vorname, k.Kunde_seit, o.ort, p.plz
+SELECT k.Name, k.Vorname, o.ort, p.plz, k.Straße, k.Firma
 FROM Kunde k
 INNER JOIN Ort o
 ON o.id = k.Ort_id

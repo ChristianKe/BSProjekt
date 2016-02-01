@@ -1,5 +1,5 @@
 USE `gruppe1` ;
-
+SET FOREIGN_KEY_CHECKS = 0;
 -- -----------------------------------------------------
 -- Insert Fahrzeugtypen
 -- -----------------------------------------------------
@@ -120,7 +120,16 @@ VALUES
       'Meriva' ),
     ( 3,
       'Vivaro' );
-     
+      
+-- -----------------------------------------------------
+-- Insert Kraftstoff
+-- -----------------------------------------------------
+INSERT INTO Kraftstoff ( Bezeichnung )
+VALUES ( 'Benzin' ),
+       ( 'Diesesl' ),
+       ( 'Gas' ),
+       ( 'Strom' );
+         
 -- -----------------------------------------------------
 -- Insert User groups
 -- -----------------------------------------------------
@@ -182,40 +191,58 @@ VALUES
 	
 -- -----------------------------------------------------
 -- Insert Kunde
--- -----------------------------------------------------
-INSERT INTO Ort ( ort )
-VALUES ( 'München' );
+-- ----------------------------------------------------- 
 
-INSERT INTO PLZ ( plz )
-VALUES ( '81927' );
-
-INSERT INTO Kunde ( Name,
-					Vorname,
-					Kunde_seit,
-					Ort_id,
-					PLZ_id )
-VALUES
-	( 'Mustermann',
-	  'Max',
-	  NOW(),
-	  1,
-	  1 ),
-	( 'Kunde',
-	  'Bester',
-	  NOW(),
-	  1,
-	  1 );
-	  
+CALL addCustomer( 'Mustermann',
+		          'Max',
+		          'Muenchenn',
+		          '81927',
+		          'Musterstraße 32',
+		          'BS GmbH' );
+		         
+CALL addCustomer( 'Mustermann',
+                  'Max der II',
+                  'Muenchen',
+                  '81927',
+                  'Musterstraße 32',
+                  'XY AG' );
+         
+CALL addCustomer( 'Musterfrau',
+		          'Angelika',
+		          'Garching-Hochbrueck',
+		          '12345',
+		          'Weststraße 3',
+		          '' );
 
 -- -----------------------------------------------------
 -- Insert Fahrzeug
 -- -----------------------------------------------------
-/*
-INSERT INTO Fahrzeug ( produktionsdatum,
-					   Fahrzeugtyp_id,
-					   fahrgestellNummer,
-					   Kunde_id
-					   Fahrzeugmarke_id )
-VALUES ();
-	*/
+CALL addVehicle( '2013',
+                 12,
+                 '862da47ee51',
+                 1,
+                 1,
+                 3,
+                 132503,
+                 80,
+                 1 );
+                 
+CALL addVehicle( '2002',
+                 4,
+                 '45de8a6f00h',
+                 2,
+                 2,
+                 10,
+                 21500,
+                 120,
+                 2 );
 	  
+CALL addVehicle( '2002',
+                 11,
+                 '45de8a6f00h',
+                 3,
+                 3,
+                 18,
+                 180321,
+                 75,
+                 1 );
