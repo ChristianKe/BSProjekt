@@ -42,13 +42,12 @@ public class Gruppe1Init
 		System.out.println( "Setting up database..." );
 		bufferedReader = new BufferedReader( new FileReader( "SQLScript.sql" ) );
 		StringBuilder stringBuilder = new StringBuilder();
-		String line = bufferedReader.readLine();
-		
-		while( null != line )
+	
+		String line = "";
+		while( null != ( line = bufferedReader.readLine() ) )
 		{
 			stringBuilder.append( line );
 			stringBuilder.append( System.lineSeparator() );
-			line = bufferedReader.readLine();
 		}
 		
 		String sql = stringBuilder.toString();
@@ -68,13 +67,12 @@ public class Gruppe1Init
 		System.out.println( "Inserting data..." );
 		bufferedReader = new BufferedReader( new FileReader( "data.sql" ) );
 		stringBuilder = new StringBuilder();
-		line = bufferedReader.readLine();
-		
-		while( null != line )
+
+		line = "";
+		while( null != ( line = bufferedReader.readLine() ) )
 		{
 			stringBuilder.append( line );
 			stringBuilder.append( System.lineSeparator() );
-			line = bufferedReader.readLine();
 		}
 		
 		String dataSql = stringBuilder.toString();
