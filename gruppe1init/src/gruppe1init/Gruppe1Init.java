@@ -10,6 +10,9 @@ import java.sql.SQLException;
 
 import java.sql.Statement;
 
+/*
+ * Setup database and insert example data.
+ */
 public class Gruppe1Init
 {
 	public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException

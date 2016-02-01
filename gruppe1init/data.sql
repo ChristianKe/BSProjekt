@@ -5,14 +5,14 @@ USE `gruppe1` ;
 -- -----------------------------------------------------
 INSERT INTO Fahrzeugtyp (typBezeichnung)
 VALUES
-	( 'Anhänger' ),
+--	( 'Anhänger' ),
 	( 'Autokran' ),
 	( 'Agrarfahrzeug' ),
 	( 'Baumaschine' ),
 	( 'Coupe' ),
 	( 'Cabrio' ),
 	( 'Chopper' ),
-	( 'Geländewagen' ),
+--	( 'Geländewagen' ),
 	( 'Hybridfahrzeug' ),
 	( 'Kastenwagen' ),
 	( 'Kehrmaschine' ),
@@ -22,7 +22,7 @@ VALUES
 	( 'LKW' ),
 	( 'Mofa' ),
 	( 'Motorrad' ),
-	( 'Mähdrescher' ),
+--	( 'Mähdrescher' ),
 	( 'Oldtimer' ),
 	( 'Pickup' ),
 	( 'Quad' ),

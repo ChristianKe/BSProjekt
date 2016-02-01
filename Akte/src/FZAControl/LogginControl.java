@@ -6,17 +6,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
+/*
+ * Handle login action.
+ */
 public class LogginControl{
-	
 	
 	private static User user;
 	
 	public String getCurrentUserName() {
 		return user.getName();
 	}
-	
-	
 	
 	public static boolean login(String username, String password){
 		ResultSet result = null;
@@ -32,7 +31,7 @@ public class LogginControl{
 			
 			result = statement.executeQuery();
 			result.next();
-			if ( 1 == result.getInt( 1 )) {
+			if ( 1 == result.getInt( 1 )) {	// TODO ???
 				user = new User( result.getString( 2 ),
 								 result.getString( 3 ),
 								 username,
@@ -51,10 +50,10 @@ public class LogginControl{
 		return false;
 	}
 
-
-
+	/*
+	 * return user object, of loged in user
+	 */
 	public static User getCurrentUser() {
 		return user;
 	}
-	
 }

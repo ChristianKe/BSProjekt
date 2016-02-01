@@ -80,6 +80,7 @@ CREATE TABLE IF NOT EXISTS `gruppe1`.`Kunde` (
   `Kunde_seit` DATETIME NULL,
   `Ort_id` INT NOT NULL,
   `PLZ_id` INT NOT NULL,
+  `Firma` VARCHAR(255) NULL,
   PRIMARY KEY (`id`, `Ort_id`, `PLZ_id`),
   INDEX `fk_Kunde_Ort1_idx` (`Ort_id` ASC),
   INDEX `fk_Kunde_PLZ1_idx` (`PLZ_id` ASC),
@@ -128,12 +129,14 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `gruppe1`.`Fahrzeug` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `produktionsdatum` DATETIME NULL,
+  `produktionsdatum` VARCHAR(255) NULL,
   `Fahrzeugtyp_id` INT NOT NULL,
   `fahrgestellNummer` VARCHAR(255) NOT NULL,
   `Kunde_id` INT NOT NULL,
   `Fahrzeugmarke_id` INT NOT NULL,
   `Fahrzeugmodell_id` INT NOT NULL,
+  `Kilometerstand` INT NULL,
+  `Leistung_KW` INT NULL,
   PRIMARY KEY (`id`, `Fahrzeugtyp_id`, `Kunde_id`, `Fahrzeugmarke_id`, `fahrgestellNummer`, `Fahrzeugmodell_id`),
   INDEX `fk_Fahrzeug_Fahrzeugtyp1_idx` (`Fahrzeugtyp_id` ASC),
   INDEX `fk_Fahrzeug_Kunde1_idx` (`Kunde_id` ASC),
@@ -272,7 +275,7 @@ BEGIN
 	INNER JOIN Usergroup ug
 	ON u.Usergroup_id = ug.id
 	WHERE u.userName = inUserName AND u.userPassword = SHA1(inUserPassword);
-END ;
+END;
 
 -- -----------------------------------------------------
 -- procedure getModelsToBrand
@@ -318,6 +321,74 @@ BEGIN
 	INNER JOIN Kunde k
 		ON f.Kunde_id = k.id
 	WHERE f.fahrgestellNummer = inFahrgestellNummer;
+END;
+
+-- -----------------------------------------------------
+-- procedure addVehicle
+-- -----------------------------------------------------
+
+CREATE PROCEDURE `addVehicle`
+(IN inProdDatum varchar(255),
+ IN inTyp int,
+ IN inFahrgestellNummer varchar(255),
+ IN inKundeId int,
+ IN inMarke int,
+ IN inModell int,
+ in inKmStand int,
+ in inLeistungKW int)
+BEGIN
+    INSERT INTO Fahrzeug ( produktionsdatum,
+						   Fahrzeugtyp_id,
+						   fahrgestellNummer, 
+						   Kunde_id,
+						   Fahrzeugmarke_id,
+						   Fahrzeugmodell_id,
+						   Kilometerstand,
+						   Leistung_KW )
+	VALUES( inProdDatum,
+			inTyp,
+			inFahrgestellNummer,
+		    inKundeId,
+			inMarke,
+			inModell,
+			inKmStand,
+			inLeistung );
+
+END;
+
+-- -----------------------------------------------------
+-- procedure addCustomer
+-- -----------------------------------------------------
+
+CREATE PROCEDURE `addCustomer`
+(IN inName varchar(255),
+ IN inVorname varchar(255),
+ IN inOrt varchar(255),
+ IN inPLZ varchar(5),
+ IN inFirma varchar(255))
+BEGIN
+
+	INSERT INTO Ort (ort)
+	VALUES (inOrt);
+
+	SELECT @ort_id = o.id FROM Ort o WHERE o.ort=inOrt;
+
+	INSERT INTO PLZ (plz)
+	VALUES (inPLZ);
+
+	SELECT @plz_id = p.id FROM PLZ p WHERE p.plz = inPLZ;
+
+	INSERT INTO Kunde (Name,
+					   Vorname,
+					   Ort_id,
+					   PLZ_id,
+					   Firma)
+	VALUES( inName,
+			inVorname,
+			@ort_id,
+			@plz_id,
+			inFirma );
+
 END;
 
 -- -----------------------------------------------------

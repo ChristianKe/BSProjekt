@@ -5,9 +5,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/*
+ * Util class, for database connections
+ */
 public class ConnectionUtil {
 	
-private static Connection myConnection = null;
+	private static Connection myConnection = null;
 	
 	public static Connection getConnection() throws SQLException, ClassNotFoundException, IOException {
 		
@@ -18,7 +21,7 @@ private static Connection myConnection = null;
 					"gruppe1admin", "");
 	      
 	      if (myConnection != null) {
-	          System.out.println("Connection erfolgreich aufgebaut!");
+//	          System.out.println("Connection erfolgreich aufgebaut!");
 	      } else {
 	          System.out.println("Connection konnte nicht aufgebaut werden!");
 	          return null;
