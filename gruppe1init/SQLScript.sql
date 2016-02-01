@@ -95,7 +95,8 @@ CREATE TABLE IF NOT EXISTS `gruppe1`.`Kunde` (
     REFERENCES `gruppe1`.`PLZ` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+COMMENT = '<double-click to overwrite multiple objects>';
 
 
 -- -----------------------------------------------------
@@ -105,7 +106,8 @@ CREATE TABLE IF NOT EXISTS `gruppe1`.`Fahrzeugmarke` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `bezeichnung` VARCHAR(255) NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+COMMENT = '<double-click to overwrite multiple objects>';
 
 
 -- -----------------------------------------------------
@@ -305,7 +307,7 @@ BEGIN
 	SELECT *
 	FROM Fahrzeugmodell
 	WHERE Fahrzeugmarke_id = id;
-END ;
+END;
 
 -- -----------------------------------------------------
 -- procedure addUser
@@ -330,16 +332,38 @@ END;
 CREATE PROCEDURE getVehicleData
 (IN inFahrgestellNummer varchar(255))
 BEGIN
-	SELECT f.produktionsdatum, f.fahrgestellNummer, ft.typBezeichnung, fm,bezeichnung, k.Name, k.Vorname
+	SELECT f.id,
+			f.fahrgestellNummer,
+			f.produktionsdatum,
+			f.Kilometerstand,
+			f.Leistung_KW,
+			ks.Bezeichnung AS Kraftstoff,
+			ft.typBezeichnung AS Typ,
+			fm.bezeichnung AS Marke,
+			fmod.bezeichnung AS Modell,
+			k.Name,
+			k.Vorname,
+			k.Straße,
+			p.plz,
+			o.ort,
+			k.firma
 	FROM Fahrzeug f
 	INNER JOIN Fahrzeugtyp ft
-		ON f.Fahrzeugtyp_id = ft.id
+	ON f.Fahrzeugtyp_id = ft.id
 	INNER JOIN Fahrzeugmarke fm
-		ON f.Fahrzeugmarke_id = fm.id
+	ON f.Fahrzeugmarke_id = fm.id
+	INNER JOIN Fahrzeugmodell fmod
+	ON f.Fahrzeugmodell_id = fmod.id
 	INNER JOIN Kunde k
-		ON f.Kunde_id = k.id
+	ON f.Kunde_id = k.id
+	INNER JOIN Ort o
+	ON k.Ort_id = o.id
+	INNER JOIN PLZ p
+	ON k.PLZ_id = p.id
+	INNER JOIN Kraftstoff ks
+	ON f.Kraftstoff_id = ks.id
 	WHERE f.fahrgestellNummer = inFahrgestellNummer;
-END ;
+END;
 
 -- -----------------------------------------------------
 -- procedure addVehicle
@@ -412,7 +436,7 @@ BEGIN
 			inFirma,
 			inAddress );
 
-END;
+END ;
 
 -- -----------------------------------------------------
 -- View `gruppe1`.`allVehicles`

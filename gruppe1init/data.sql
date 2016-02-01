@@ -154,27 +154,23 @@ VALUES
 -- -----------------------------------------------------
 -- Insert Users
 -- -----------------------------------------------------
-INSERT INTO User ( userName,
-				   userPassword,
-				   Name,
-				   Vorname,
-				   Usergroup_id )
-VALUES
-	( 'user',
-	  SHA1( 'user' ),
-	  'User_Name',
-	  'User_Vorname',
-	   3 ),	/* group User */
-	 ( 'manager',
-	   SHA1( 'manager' ),
-	   'Manager_Name',
-	   'Manager_Vorname',
-	   2 ),	/* group Manager */
-	 ( 'admin',
-	   SHA1( 'admin' ),
-	   'Admin_Name',
-	   'Admin_Vorname',
-	   1 );	/* Group admin */
+CALL addUser( 'user',
+              'user',
+              'Name',
+              'Vorname',
+              3 );  /* group User */
+              
+CALL addUser( 'manager',
+              'manager',
+              'Name',
+              'Vorname',
+              2 );  /* group Manager */
+             
+CALL addUser( 'admin',
+              'admin',
+              'Name',
+              'Vorname',
+              1 );  /* group admin */
 	  
 	   
 -- -----------------------------------------------------
@@ -227,7 +223,7 @@ CALL addVehicle( '2013',
                  80,
                  1 );
                  
-CALL addVehicle( '2002',
+CALL addVehicle( '2015',
                  4,
                  '45de8a6f00h',
                  2,
