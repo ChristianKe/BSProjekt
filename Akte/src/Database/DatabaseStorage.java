@@ -22,8 +22,7 @@ public class DatabaseStorage {
 		String fahrzeugTyp = input.get(3);
 		String kmStand = input.get(4);
 		String leistung = input.get(5);
-		String kraftstoff = input.get(6);
-		String kraftstoff1 = input.get(7);
+		String KraftstoffNumber = getcorrectKraftstoffNumber(input.get(6), input.get(7));
 		String model = input.get(8);
 		String fahrgetsellNummer = input.get(9);
 		String kennzeichen = input.get(10);
@@ -68,6 +67,18 @@ public class DatabaseStorage {
 
 		
 		return result;
+	}
+
+	private static String getcorrectKraftstoffNumber(String kraftstoff6,
+			String kraftstoff7) { // 1 Benzin 2 Diesel
+		String kraftstoffNumber = null;
+		if (kraftstoff6 == null) {
+			kraftstoffNumber = new String("1");
+		} else if (kraftstoff7 != null) {
+			kraftstoffNumber = new String("2");
+		}
+
+		return kraftstoffNumber;
 	}
 
 }
