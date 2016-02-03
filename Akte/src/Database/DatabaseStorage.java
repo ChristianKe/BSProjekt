@@ -4,15 +4,17 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
+
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 import FZAControl.ConnectionUtil;
 
 public class DatabaseStorage {
 	
 	public static boolean storeNewVehicle(Map<Integer, String> input) {
-		PreparedStatement statement = null;
 		boolean result = false;
 		
 		String marke = input.get(1);
@@ -27,23 +29,43 @@ public class DatabaseStorage {
 		String kennzeichen = input.get(10);
 		
 		String kundenName = input.get(11);
-		String kundenVornamen = input.get(12);
+		String kundenVorname = input.get(12);
 		String kundenAdresse = input.get(13);
 		String kundenFirma = input.get(14);
 		String plz = input.get(15);
 		String ort = input.get(16);
+
 		
 		try {
+			/*
+			 * Create new Customer
+			 */
+			//
 			Connection connection = ConnectionUtil.getConnection();
+			Statement statement = connection.createStatement();
 			
+			
+			//
 			StringBuilder sb = new StringBuilder();
-			sb.append( "CALL addCustomer(" + kundenName + ", " + kundenVornamen + ", " + ort + ", " + plz + ", " + kundenAdresse + ", " + kundenFirma + ")" );
+			sb.append( "CALL addCustomer( '" + kundenName + "','" + kundenVorname +
+					   "', '" + ort + "', '" + plz + "', '" + kundenAdresse +
+					   "', '" + kundenFirma + "')" );
 			result = statement.execute(sb.toString());
 			
-		} catch (ClassNotFoundException | SQLException | IOException e) {
-			e.printStackTrace();
-			return result;
+			/*
+			 * 
+			 */
+			
 		}
+		catch( com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e )
+		{
+			// TODO: Customer already exists
+		}
+		catch (ClassNotFoundException | SQLException | IOException e) {
+			e.printStackTrace();
+		}
+		
+
 		
 		return result;
 	}

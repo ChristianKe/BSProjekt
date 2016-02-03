@@ -2,9 +2,13 @@ package Test;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Test;
 
 import Database.DatabaseRessourres;
+import Database.DatabaseStorage;
 
 public class Test1 {
 
@@ -37,6 +41,19 @@ public class Test1 {
 		for (String vo : modellFromDatabase) {
 			System.out.println(vo.toString());
 		}
+	}
+	
+	@Test
+	public void testNewCustomer()
+	{
+		Map< Integer, String > input = new HashMap< Integer, String >();
+		
+		for( int i = 0; i < 17; ++i )
+		{
+			input.put( i, "Test" + i );
+		}
+		
+		DatabaseStorage.storeNewVehicle( input );
 	}
 
 
