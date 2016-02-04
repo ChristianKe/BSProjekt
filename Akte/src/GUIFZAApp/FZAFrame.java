@@ -45,6 +45,9 @@ public class FZAFrame extends JFrame  {
 	private static final Integer WIDTH = 600;
 	private static final Integer HEIGHT = 300;
 	
+	private static final int WIDTHFORUSERBEARBEITEN = 400;
+	private static final int HEIGHTFORUSERBEARBEITEN = 250;
+	
 	private static final int NORTHPANELSPALTENANZAHL = 7;
 
 
@@ -55,6 +58,7 @@ public class FZAFrame extends JFrame  {
 
 
 	private static final int southCols = 6;
+
 
 
 	
@@ -333,7 +337,8 @@ public class FZAFrame extends JFrame  {
 
 
 	private void showServiceEvents() {
-		// TODO Auto-generated method stub
+		
+		CenterPanel serviceEvents = new ServiceEvent(contentPane, centerPanel, languageType);
 		
 	}
 
@@ -508,6 +513,7 @@ public class FZAFrame extends JFrame  {
 	// User bearbeiten
 	private void userBearbeiten() {
 		//TODO 
+		UserBearbeitenFrame userBearbeiten = new UserBearbeitenFrame(WIDTHFORUSERBEARBEITEN, HEIGHTFORUSERBEARBEITEN, languageType);
 	}
 	
 	// neues Fahrzeug anlegen

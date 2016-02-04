@@ -13,6 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -35,6 +36,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import Database.DatabaseRessourres;
+import Database.DatabaseStorage;
 
 import com.mysql.jdbc.StringUtils;
 
@@ -279,11 +281,20 @@ public class NFF extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				completeInputData();
 				if (checkInput(languageType, inputData)) {
-					// TODO Methode zum Abspeichern
-					confirmationMessage(languageType, inputData);
-					closeNeuesFahrzeug();
-				} else 
-					{
+					int storeNewVehicle = 1;
+					try {
+						storeNewVehicle = DatabaseStorage.storeNewVehicle(inputData);
+					} catch (ClassNotFoundException | SQLException
+							| IOException e1) {
+						e1.printStackTrace();
+					}
+					if (storeNewVehicle == 0) {
+						confirmationMessage(languageType, inputData);
+						closeNeuesFahrzeug();
+					} else {
+						// abspeichern nicht möglich
+					}
+				} else {
 					JOptionPane.showMessageDialog(null, LR.HILFE[0][languageType], LR.MELDUNG[1][languageType],
 							JOptionPane.ERROR_MESSAGE);
 				}

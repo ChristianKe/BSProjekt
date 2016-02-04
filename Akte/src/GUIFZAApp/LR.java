@@ -20,7 +20,7 @@ public class LR {
 												   {"Name:*", "surname:*"}, {"Vorname:*", "name:*"} ,
 												   {"Anmeldenamen:*", "login name:*"}, {"Passwort:*", "password:*"}, 
 												   {"User-Gruppe:*", "user group:*"}, {" wurde hinzugefügt zur Gruppe: ", " was added to group: "}};
-	protected static final String[][] USERBEARBEITEN = {{"User bearbeiten", "Edit user"}, {"Existierenden User bearbeiten", "Edit existing user"}};
+	protected static final String[][] USERBEARBEITEN = {{"User bearbeiten", "Edit user"}, {"Existierenden User bearbeiten", "Edit existing user"}, {"Altes Passwort:*", "old password:*"}, {"Neues Passwort:*", "new password:*"}, {"speichern", "save"}};
 	protected static final String[][] NEUESFAHRZEUG = {{"Neues Fahrzeug", "New vehicle"}, {"Neues Fahrzeug anlegen", "Create new vehicle"}, {"Anlegen", "Save"}};
 	protected static final String[][] FAHRZEUGBEARBEITEN = {{"Fahrzeug bearbeiten", "Edit vehicle"}, {"Existierendes Fahrzeug bearbeiten", "Edit existing vehicle"}};
 	protected static final String[][] YESNOOPTIONS = {{"Ja", "Nein"}, {"Yes", "No"}};
@@ -33,10 +33,8 @@ public class LR {
 				{"Gruppe3: Lesen, Schreiben und Benutzer verwalten.\n", "Group3: read, write and user management.\n"},
 				{"Für weiter Informationen auf das Icon klicken!.\n", "Click here for further information.\n"}};
 	protected static final String[][] USERGROUPS = {{"", "Gruppe1", "Gruppe2", "Gruppe3"}, {"", "group1", "group2", "group3"}};	
-	
-	protected static final String[] MARKEN = {"", "Audi", "BMW", "Ford", "Mercedes", "Opel", "Toyota", "Volkswagen"};
-	protected static final String[] FAHRZEUGTYPEN = {"", "Limousine ", "Coupé", "Kombi", "Cabrio"};
-	protected static final String[][] MODEL = {{""},{"A1", "A3", "A4"}, {"1er", "2er", "3er"}, {"Focus", "C-Max", "S-Max"}, {"A-Klasse", "B-Klasse", "C-Klasse"}, {"Corsa", "Astra", "Mokka"}, {"Auris", "Avensis", "Yaris"}, {"Polo", "Golf", "Passat"}};
 	protected static final String[][] KUNDE = {{"Kunde", "Customer"}, {"Name:*", "Surname:*"}, {"Vorname:*", "Name:*"}, {"Firma: ", "Company: "}, {"Adresse:* ", "Address:* "}, {"PLZ:* ", "Postcode:* "}, {"Ort:* ", "Place:* "}};
+	
+	protected static final String[][] SERVICE = {{"Datum", "Date"}, {"betr. Komponeneten", "affected parts"}}; 
 	
 }
