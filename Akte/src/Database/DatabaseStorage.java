@@ -13,22 +13,67 @@ import java.util.Map;
 
 
 
+
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 import FZAControl.ConnectionUtil;
 
 public class DatabaseStorage {
 	
+	private static final int SUCCESS				= 0;
 	private static final int ERROR_SQL_EXCEPTION	= 1;
 	private static final int ERROR_INSERT_CUSTOMER	= 2;
 	private static final int ERROR_INSERT_VEHICLE	= 3;
-
-	public static int storeNewUser( Map< Integer, String > input )
+	private static final int ERROR_WRONG_USER_NAME	= 4;
+	
+	public static int updateUser( Map< Integer, String > input )
 	{
+		// TODO> change map indices
+		String	vorname			= input.get(1);
+		String	nachname		= input.get(1);
+		String	userName		= input.get(1);
+		String	passwortOld		= input.get(1);
+		String	password 		= input.get(1);
+		String	groupIdString	= input.get(1);
+		int		groupId			= Integer.parseInt( groupIdString );	
 		
 		
 		
-		return 0;
+		return SUCCESS;
+	}
+
+	public static int storeNewUser( Map< Integer, String > input ) throws ClassNotFoundException, SQLException, IOException
+	{
+		// TODO: change map indices
+		String	vorname			= input.get(1);
+		String	nachname		= input.get(1);
+		String	userName		= input.get(1);
+		String	password 		= input.get(1);
+		String	groupIdString	= input.get(1);
+		int		groupId			= Integer.parseInt( groupIdString );
+		
+		// database connection
+		Connection connection = ConnectionUtil.getConnection();
+		
+		try
+		{
+			String sql = "CALL addUser( ?, ?, ?, ?, ? )";
+	
+			PreparedStatement stmt = connection.prepareStatement( sql );
+			stmt.setString( 1, userName );
+			stmt.setString( 2, password );
+			stmt.setString( 3, nachname );
+			stmt.setString( 4, vorname );
+			stmt.setInt( 5, groupId );
+			
+			stmt.execute();
+		}
+		catch( SQLException e )
+		{
+			return ERROR_SQL_EXCEPTION;
+		}
+		
+		return SUCCESS;
 	}
 	
 	/*
@@ -68,7 +113,6 @@ public class DatabaseStorage {
 	
 		// database connection
 		Connection connection = ConnectionUtil.getConnection();
-		Statement statement = connection.createStatement();
 		
 		/*
 		 * disable foreign key constraints
@@ -117,6 +161,7 @@ public class DatabaseStorage {
 		try
 		{
 			ResultSet rs = null;
+			Statement statement = connection.createStatement();
 			String sql = "SELECT id FROM allCustomers WHERE Name='" + kundenName + "' AND Vorname='" + kundenVorname + "'";
 			rs = statement.executeQuery( sql );
 			
@@ -161,7 +206,7 @@ public class DatabaseStorage {
 			return ERROR_SQL_EXCEPTION;
 		}
 		
-		return 0;
+		return SUCCESS;
 	}
 
 }
