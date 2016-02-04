@@ -2,6 +2,8 @@ package Test;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,10 +52,21 @@ public class Test1 {
 		
 		for( int i = 0; i < 17; ++i )
 		{
-			input.put( i, "Test" + i );
+			input.put( i, "5445" );
 		}
 		
-		DatabaseStorage.storeNewVehicle( input );
+		try {
+			System.out.println( DatabaseStorage.storeNewVehicle( input ) );
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 
