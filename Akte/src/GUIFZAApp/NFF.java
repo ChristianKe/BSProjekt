@@ -201,7 +201,7 @@ public class NFF extends JFrame {
 		kundenPanel.add(new JLabel(LR.KUNDE[6][languageType], SwingConstants.RIGHT));
 		kundenPanel.add(ortName);
 		kundenPanel.add(new JLabel());
-		// fünfte Zeile
+		// fï¿½nfte Zeile
 		addBlankoZeile(kundenPanel, 3);
 		
 		tabbed.addTab(LR.FAHRZEUG[0][languageType], fahrzeugPanel);
@@ -285,17 +285,14 @@ public class NFF extends JFrame {
 				completeInputData();
 				if (checkInput(languageType, inputData)) {
 					int storeNewVehicle = 1;
-					try {
+					
 						storeNewVehicle = DatabaseStorage.storeNewVehicle(inputData);
-					} catch (ClassNotFoundException | SQLException
-							| IOException e1) {
-						e1.printStackTrace();
-					}
+					
 					if (storeNewVehicle == 0) {
 						confirmationMessage(languageType, inputData);
 						closeNeuesFahrzeug();
 					} else {
-						// abspeichern nicht möglich
+						// abspeichern nicht mï¿½glich
 						JOptionPane.showMessageDialog(null,LR.MELDUNG[4][languageType], null, JOptionPane.WARNING_MESSAGE);
 					}
 				} else {
@@ -314,7 +311,7 @@ public class NFF extends JFrame {
 	
 	
 	
-	// Bestätigung
+	// Bestï¿½tigung
 	private void confirmationMessage(int pLanguageType, Map<Integer, String> pInputData) {
 		String text = LR.MELDUNG[3][pLanguageType];
 		JOptionPane.showMessageDialog(null, text, null, JOptionPane.INFORMATION_MESSAGE);
@@ -332,7 +329,7 @@ public class NFF extends JFrame {
 		inputData.put(15, ortName.getText());
 	}
 
-	// schließen des Eingabe dialogs
+	// schlieï¿½en des Eingabe dialogs
 	private void closeNeuesFahrzeug() {
 		setVisible(false);
 		dispose();
@@ -373,7 +370,7 @@ public class NFF extends JFrame {
 	}
 
 
-	// liefert in 1000 sprüngen Zahlen bis 1 Mio
+	// liefert in 1000 sprï¿½ngen Zahlen bis 1 Mio
 	private String[] createKilometerNumber() {
 		ArrayList<String> km = new ArrayList<>();
 		km.add("");
@@ -422,7 +419,7 @@ public class NFF extends JFrame {
 	}
 	
 	
-	// prüft ob alle Felder gesetzt sind
+	// prï¿½ft ob alle Felder gesetzt sind
 	private boolean checkInput(int pLanguageType, Map<Integer, String> data) {
 		boolean invalid = true;
 		for (Entry<Integer, String> vo : data.entrySet()) {
@@ -442,6 +439,12 @@ public class NFF extends JFrame {
 	private void updateComboBoxModel(JComboBox<String> comboModel, int selectedIndex) {
 		comboModel.removeAllItems();
 		String[] newModels = DatabaseRessourres.getModelFromDatabase(selectedIndex);
+		System.out.println( "" + newModels.length );
+//		if( 1 == newModels.length )
+//		{
+//		    comboModel.addItem( "kein Modell vorhanden" );
+//		}
+
 		for (int i = 0; i < newModels.length; i++) {
 			comboModel.addItem(newModels[i]);
 		}
