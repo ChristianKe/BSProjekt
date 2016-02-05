@@ -43,16 +43,16 @@ public class DatabaseStorage {
 		String	markeString			= input.get(1);
 		int		marke				= Integer.parseInt( markeString );
 		String	baujahr				= input.get(2);
-		String	fahrzeugTypString	= input.get(3);
-		int		fahrzeugTyp			= Integer.parseInt( fahrzeugTypString );
-		String	kmStandString		= input.get(4);
-		int		kmStand				= Integer.parseInt( kmStandString );
-		String	leistungString		= input.get(5);
-		int		leistung			= Integer.parseInt( leistungString );
-	    String	kraftstoffString	= input.get( 6 );
-	    int		kraftstoff			= Integer.parseInt( kraftstoffString );
-		String	modellString		= input.get( 7 );
+		String	modellString		= input.get( 3 );
 		int		modell				= Integer.parseInt( modellString );
+		String	fahrzeugTypString	= input.get(4);
+		int		fahrzeugTyp			= Integer.parseInt( fahrzeugTypString );
+		String	kmStandString		= input.get(5);
+		int		kmStand				= Integer.parseInt( kmStandString );
+		String	leistungString		= input.get(6);
+		int		leistung			= Integer.parseInt( leistungString );
+	    String	kraftstoffString	= input.get( 7 );
+	    int		kraftstoff			= Integer.parseInt( kraftstoffString );
 		String	fahrgestellNummer	= input.get( 8 );
 		String	kennzeichen			= input.get( 9 );
 		

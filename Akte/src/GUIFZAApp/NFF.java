@@ -45,6 +45,11 @@ public class NFF extends JFrame {
 	private static final String[] BILDERPFAD = {"src\\PicRessources\\englisch.jpg", "src\\PicRessources\\deutsch.jpg", "src\\PicRessources\\infoIcon.jpg"};
 
 	private static final int KILOMETERSPRUNG = 1000;
+
+	private static final String DIESEL = "2";
+
+	private static final String BENZIN = "1";
+	
 	private JComboBox<String> comboMarke;
 	private JComboBox<String> combobauJahr;
 	private JComboBox<String> comboModel;
@@ -66,18 +71,14 @@ public class NFF extends JFrame {
 	private JTextField amtlichesKennzeichen;
 	
 
-	private String baujahr;
-	private String marke;
 	private int markenNummer;
-	private String modelBezeichnung;
-	private String typ;
-	private String kmStand;
-	private String leistung;
 	
 	private Map<Integer,String> inputData;
 	
 	private JButton okButton;
 
+	
+	// Konstruktor
 	public NFF(int breite, int hoehe, int languageType) {
 		// breite, hoehe
 		this.setSize(breite, hoehe);
@@ -215,17 +216,16 @@ public class NFF extends JFrame {
 		comboMarke.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				marke = (String) comboMarke.getSelectedItem();
 				markenNummer = comboMarke.getSelectedIndex();
 				updateComboBoxModel(comboModel, markenNummer);
-				inputData.put(1, marke);
+				inputData.put(1, String.valueOf(markenNummer));
 			}
 		});
 		
 		combobauJahr.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				baujahr = (String) combobauJahr.getSelectedItem();
+				String baujahr = (String) combobauJahr.getSelectedItem();
 				inputData.put(2, baujahr);
 			}
 		});
@@ -233,47 +233,50 @@ public class NFF extends JFrame {
 		comboModel.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				modelBezeichnung = (String)comboModel.getSelectedItem();
+				int modelBezeichnung = comboModel.getSelectedIndex();
+				inputData.put(3, String.valueOf(modelBezeichnung));
 			}
 		});
 		
 		comboTyp.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				typ = (String) comboTyp.getSelectedItem();
-				inputData.put(3,typ);
+				int typ = comboTyp.getSelectedIndex();
+				inputData.put(4, String.valueOf(typ));
 			}
 		});
 		
 		comboKMstand.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				kmStand = (String) comboKMstand.getSelectedItem();
-				inputData.put(4, kmStand);
+				String kmStand = (String) comboKMstand.getSelectedItem();
+				inputData.put(5, kmStand);
 			}
 		});
 		
 		comboLeistung.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				leistung = (String) comboLeistung.getSelectedItem();
-				inputData.put(5, leistung);
+				String leistung = (String) comboLeistung.getSelectedItem();
+				inputData.put(6, leistung);
 			}
 		});
 	    
+		inputData.put(7, BENZIN);
 	    diesel.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
             	benzin.setSelected(false);
-            	inputData.put(6, "Diesel");
+            	inputData.put(7, DIESEL);
             }
         });
+	    
 	    benzin.addActionListener(new ActionListener(){
         	@Override
             public void actionPerformed(ActionEvent e){
         		diesel.setSelected(false);
-        		inputData.put(7, "Benzin");            
-        		}
+        		inputData.put(7, BENZIN);            
+        	}
         });
 		
 	    okButton.addActionListener(new ActionListener(){
@@ -293,6 +296,7 @@ public class NFF extends JFrame {
 						closeNeuesFahrzeug();
 					} else {
 						// abspeichern nicht möglich
+						JOptionPane.showMessageDialog(null,LR.MELDUNG[4][languageType], null, JOptionPane.WARNING_MESSAGE);
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, LR.HILFE[0][languageType], LR.MELDUNG[1][languageType],
@@ -312,23 +316,20 @@ public class NFF extends JFrame {
 	
 	// Bestätigung
 	private void confirmationMessage(int pLanguageType, Map<Integer, String> pInputData) {
-		String kuFahrgestellNummer = pInputData.get(new Integer(10));
-		String kuVorname = pInputData.get(new Integer(11));
 		String text = LR.MELDUNG[3][pLanguageType];
 		JOptionPane.showMessageDialog(null, text, null, JOptionPane.INFORMATION_MESSAGE);
 		
 	}
 
 	private void completeInputData() {
-		inputData.put(8, modelBezeichnung);
-		inputData.put(9 , fahrgeNummer.getText());
-		inputData.put(10, amtlichesKennzeichen.getText());
-		inputData.put(11, kundeName.getText());
-		inputData.put(12, kundeVorname.getText());
-		inputData.put(13, kundeAdresse.getText());
-		inputData.put(14, firmaName.getText()); 
-		inputData.put(15, plzNummer.getText());
-		inputData.put(16, ortName.getText());
+		inputData.put(8, fahrgeNummer.getText());
+		inputData.put(9, amtlichesKennzeichen.getText());
+		inputData.put(10, kundeName.getText());
+		inputData.put(11, kundeVorname.getText());
+		inputData.put(12, kundeAdresse.getText());
+		inputData.put(13, firmaName.getText()); 
+		inputData.put(14, plzNummer.getText());
+		inputData.put(15, ortName.getText());
 	}
 
 	// schließen des Eingabe dialogs
@@ -425,7 +426,7 @@ public class NFF extends JFrame {
 	private boolean checkInput(int pLanguageType, Map<Integer, String> data) {
 		boolean invalid = true;
 		for (Entry<Integer, String> vo : data.entrySet()) {
-			if (!vo.getKey().equals(new Integer(14))) {
+			if (!vo.getKey().equals(new Integer(13))) {
 				if (StringUtils.isEmptyOrWhitespaceOnly(vo.getValue())) {
 					invalid = false;
 					break;
