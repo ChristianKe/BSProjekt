@@ -325,13 +325,7 @@ public class FZAFrame extends JFrame  {
 	
 	
 	private void showFahrzeugDetails() {
-		// TODO
-		this.contentPane.remove(centerPanel);
-		JPanel newJPanel = new JPanel();
-		newJPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		
-		this.contentPane.add(newJPanel);
-		this.contentPane.revalidate();
+		CenterPanel fahrzeugData = new FahrzeugData(contentPane, centerPanel, languageType);
 	}
 
 

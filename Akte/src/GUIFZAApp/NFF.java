@@ -285,12 +285,7 @@ public class NFF extends JFrame {
 				completeInputData();
 				if (checkInput(languageType, inputData)) {
 					int storeNewVehicle = 1;
-					try {
-						storeNewVehicle = DatabaseStorage.storeNewVehicle(inputData);
-					} catch (ClassNotFoundException | SQLException
-							| IOException e1) {
-						e1.printStackTrace();
-					}
+					storeNewVehicle = DatabaseStorage.storeNewVehicle(inputData);
 					if (storeNewVehicle == 0) {
 						confirmationMessage(languageType, inputData);
 						closeNeuesFahrzeug();

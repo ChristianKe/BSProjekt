@@ -20,7 +20,8 @@ public class LR {
 												   {"Name:*", "surname:*"}, {"Vorname:*", "name:*"} ,
 												   {"Anmeldenamen:*", "login name:*"}, {"Passwort:*", "password:*"}, 
 												   {"User-Gruppe:*", "user group:*"}, {" wurde hinzugefügt zur Gruppe: ", " was added to group: "}};
-	protected static final String[][] USERBEARBEITEN = {{"User bearbeiten", "Edit user"}, {"Existierenden User bearbeiten", "Edit existing user"}, {"Altes Passwort:*", "old password:*"}, {"Neues Passwort:*", "new password:*"}, {"speichern", "save"}};
+	protected static final String[][] USERBEARBEITEN = {{"User bearbeiten", "Edit user"}, {"Existierenden User bearbeiten", "Edit existing user"},
+													{"Altes Passwort:*", "old password:*"}, {"Neues Passwort:*", "new password:*"}, {"speichern", "save"}};
 	protected static final String[][] NEUESFAHRZEUG = {{"Neues Fahrzeug", "New vehicle"}, {"Neues Fahrzeug anlegen", "Create new vehicle"}, {"Anlegen", "Save"}};
 	protected static final String[][] FAHRZEUGBEARBEITEN = {{"Fahrzeug bearbeiten", "Edit vehicle"}, {"Existierendes Fahrzeug bearbeiten", "Edit existing vehicle"}};
 	protected static final String[][] YESNOOPTIONS = {{"Ja", "Nein"}, {"Yes", "No"}};
@@ -35,6 +36,11 @@ public class LR {
 	protected static final String[][] USERGROUPS = {{"", "Gruppe1", "Gruppe2", "Gruppe3"}, {"", "group1", "group2", "group3"}};	
 	protected static final String[][] KUNDE = {{"Kunde", "Customer"}, {"Name:*", "Surname:*"}, {"Vorname:*", "Name:*"}, {"Firma: ", "Company: "}, {"Adresse:* ", "Address:* "}, {"PLZ:* ", "Postcode:* "}, {"Ort:* ", "Place:* "}};
 	
-	protected static final String[][] SERVICE = {{"Datum", "Date"}, {"betr. Komponeneten", "affected parts"}}; 
+	protected static final String[][] SERVICE = {{"Datum", "Date"}, {"betr. Komponeneten", "affected parts"}};
+	protected static final String[][] FAHRZEUGANZEIGE = {{"Marke:", "Car brand:"},{"Baujahr:", "Year of construction:"}, {"Typ:", "Type:"},
+														{"Kilometerstand[KM]:", "Mileage[KM]:"}, {"Leistung[KW]:", "Engine power[KW]:"}, 
+														{"Kraftstoff:", "Fuel:"}, {"Model:", "Model:"}, {"Fahrgestellnummer:", "VIN:"},
+														{"Amtliches Kennzeichen:", "Car registration number:"}, {"Name des Kunden:", "Customers surname:"}, 
+														{"Vorname", "Customers name:"}, {"Firmenadresse:", "Company's address:"}, {"PLZ:", "Postcode:"}, {"Ort:", "Place:"}}; 
 	
 }

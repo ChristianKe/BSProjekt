@@ -4,14 +4,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
-
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import FZAControl.ConnectionUtil;
-import GUIFZAApp.Fahrzeug;
 
 public class DatabaseRessourres {
 	
@@ -119,10 +115,6 @@ public class DatabaseRessourres {
 	
 	
 	
-	public static Fahrzeug getFahrzeugFromDatabase(String fahrgestellNummer) {
-		Fahrzeug fahrzeug = null;
-		
-		return fahrzeug;
-	}
+
 
 }
