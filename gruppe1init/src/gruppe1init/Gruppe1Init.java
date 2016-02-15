@@ -1,13 +1,13 @@
 package gruppe1init;
 
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
 import java.sql.Statement;
 
 /*
@@ -24,10 +24,19 @@ public class Gruppe1Init
 		BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( System.in ) );
 		String username = bufferedReader.readLine();
 		
-		System.out.print( "Password: " );
-		// TODO: mask password input
-		String password = bufferedReader.readLine();
-				
+		String password = "";
+		Console console = System.console();
+		if( null == console )
+		{
+	        System.out.print( "Password: " );
+	        password = bufferedReader.readLine();
+		}
+		else
+		{
+    		char passwordArray[] = console.readPassword( "Password: " );
+    		password = passwordArray.toString();
+		}
+		
 		/*
 		 * Establish mysql connection
 		 */

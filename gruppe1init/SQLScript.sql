@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `gruppe1`.`Fahrzeug` (
   `Leistung_KW` INT NULL,
   `Kraftstoff_id` INT NOT NULL,
   `kennzeichen` VARCHAR(255) NULL,
-  PRIMARY KEY (`id`, `Fahrzeugtyp_id`, `Kunde_id`, `Fahrzeugmarke_id`, `fahrgestellNummer`, `Fahrzeugmodell_id`, `Kraftstoff_id`),
+  PRIMARY KEY (`id`, `Fahrzeugtyp_id`, `Kunde_id`, `Fahrzeugmarke_id`, `fahrgestellNummer`, `Kraftstoff_id`, `Fahrzeugmodell_id`),
   INDEX `fk_Fahrzeug_Fahrzeugtyp1_idx` (`Fahrzeugtyp_id` ASC),
   INDEX `fk_Fahrzeug_Kunde1_idx` (`Kunde_id` ASC),
   INDEX `fk_Fahrzeug_Fahrzeugmarke1_idx` (`Fahrzeugmarke_id` ASC),
@@ -206,7 +206,7 @@ CREATE TABLE IF NOT EXISTS `gruppe1`.`Serviceevents` (
   `Fahrzeug_id` INT NOT NULL,
   `datum` DATETIME NULL,
   `Aufgaben_id` INT NOT NULL,
-  PRIMARY KEY (`id`, `Fahrzeug_id`, `Aufgaben_id`),
+  PRIMARY KEY (`id`, `Aufgaben_id`, `Fahrzeug_id`),
   INDEX `fk_Fahrzeug_has_Serviceevents_Fahrzeug1_idx` (`Fahrzeug_id` ASC),
   INDEX `fk_Serviceevents_Aufgaben1_idx` (`Aufgaben_id` ASC),
   CONSTRAINT `fk_Fahrzeug_has_Serviceevents_Fahrzeug1`
@@ -238,9 +238,9 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `gruppe1`.`Komponenten_has_Fahrzeug` (
   `Komponenten_id` INT NOT NULL,
   `Fahrzeug_id` INT NOT NULL,
-  PRIMARY KEY (`Komponenten_id`, `Fahrzeug_id`),
   INDEX `fk_Komponenten_has_Fahrzeug_Fahrzeug1_idx` (`Fahrzeug_id` ASC),
   INDEX `fk_Komponenten_has_Fahrzeug_Komponenten1_idx` (`Komponenten_id` ASC),
+  PRIMARY KEY (`Fahrzeug_id`, `Komponenten_id`),
   CONSTRAINT `fk_Komponenten_has_Fahrzeug_Komponenten1`
     FOREIGN KEY (`Komponenten_id`)
     REFERENCES `gruppe1`.`Komponenten` (`id`)
@@ -286,6 +286,11 @@ CREATE TABLE IF NOT EXISTS `gruppe1`.`allVehicleBrands` (`id` INT, `bezeichnung`
 CREATE TABLE IF NOT EXISTS `gruppe1`.`allUsergroups` (`id` INT, `groupBezeichnung` INT);
 
 -- -----------------------------------------------------
+-- Placeholder table for view `gruppe1`.`vehicle`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `gruppe1`.`vehicle` (`id` INT, `fahrgestellNummer` INT, `produktionsdatum` INT, `Kilometerstand` INT, `Leistung_KW` INT, `kennzeichen` INT, `Kraftstoff` INT, `Typ` INT, `Marke` INT, `Modell` INT, `Name` INT, `Vorname` INT, `Straße` INT, `plz` INT, `ort` INT, `firma` INT);
+
+-- -----------------------------------------------------
 -- procedure checkLoginData
 -- -----------------------------------------------------
 
@@ -310,7 +315,7 @@ BEGIN
 	SELECT *
 	FROM Fahrzeugmodell
 	WHERE Fahrzeugmarke_id = id;
-END ;
+END;
 
 -- -----------------------------------------------------
 -- procedure addUser
@@ -445,6 +450,22 @@ BEGIN
 END;
 
 -- -----------------------------------------------------
+-- procedure updateUser
+-- -----------------------------------------------------
+
+CREATE PROCEDURE `updateUser`
+( inUserName VARCHAR(255),
+  inPasswordOld VARCHAR(255),
+  inPasswordNew VARCHAR(255),
+  inVorname VARCHAR(255),
+  inNachname VARCHAR(255),
+  inGroupId INT)
+BEGIN
+	UPDATE User SET userPassword=inUserPassword, Name=inName, Vorname=inVorname, Usergroup_Id=inUsergroupId
+	WHERE userName = inUserName;
+END;
+
+-- -----------------------------------------------------
 -- View `gruppe1`.`allVehicles`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `gruppe1`.`allVehicles`;
@@ -530,6 +551,44 @@ USE `gruppe1`;
 CREATE  OR REPLACE VIEW `allUsergroups` AS
 SELECT id, groupBezeichnung
 FROM Usergroup;
+
+-- -----------------------------------------------------
+-- View `gruppe1`.`vehicle`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `gruppe1`.`vehicle`;
+USE `gruppe1`;
+CREATE  OR REPLACE VIEW `vehicle` AS
+SELECT f.id,
+		f.fahrgestellNummer,
+		f.produktionsdatum,
+		f.Kilometerstand,
+		f.Leistung_KW,
+		f.kennzeichen,
+		ks.Bezeichnung AS Kraftstoff,
+		ft.typBezeichnung AS Typ,
+		fm.bezeichnung AS Marke,
+		fmod.bezeichnung AS Modell,
+		k.Name,
+		k.Vorname,
+		k.Straße,
+		p.plz,
+		o.ort,
+		k.firma
+FROM Fahrzeug f
+INNER JOIN Fahrzeugtyp ft
+ON f.Fahrzeugtyp_id = ft.id
+INNER JOIN Fahrzeugmarke fm
+ON f.Fahrzeugmarke_id = fm.id
+INNER JOIN Fahrzeugmodell fmod
+ON f.Fahrzeugmodell_id = fmod.id
+INNER JOIN Kunde k
+ON f.Kunde_id = k.id
+INNER JOIN Ort o
+ON k.Ort_id = o.id
+INNER JOIN PLZ p
+ON k.PLZ_id = p.id
+INNER JOIN Kraftstoff ks
+ON f.Kraftstoff_id = ks.id;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
