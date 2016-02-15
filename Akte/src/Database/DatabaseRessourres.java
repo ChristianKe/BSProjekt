@@ -115,6 +115,48 @@ public class DatabaseRessourres {
 		return arrayList.toArray(new String[arrayList.size()]);
 	}
 	
+	/*
+	 * 
+	 */
+	public static Fahrzeug getVehicleFromDatabase( String fahrgestellNummer ) throws ClassNotFoundException, SQLException, IOException
+	{
+	    Fahrzeug fahrzeug = null;
+	    
+	    // database connection
+	    Connection connection;
+	    connection = ConnectionUtil.getConnection();
+	    
+	    // query vehicle data
+	    String sql = "SELECT * FROM allVehicles WHERE Fahrzeug.fahrgestellNummer=?";
+	    PreparedStatement stmt = connection.prepareStatement( sql );
+	    stmt.setString( 1, fahrgestellNummer );
+	    ResultSet rs = stmt.executeQuery();
+	    
+	    if( rs.next() )
+	    {
+	        fahrzeug = new Fahrzeug( rs.getString(1),
+                                     rs.getString(2),
+                                     rs.getInt(3),
+                                     rs.getInt(4),
+                                     rs.getString(5),
+                                     rs.getString(6),
+                                     rs.getString(7),
+                                     rs.getString(8),
+                                     rs.getString(9),
+                                     rs.getString(10),
+                                     rs.getString(11),
+                                     rs.getString(12),
+                                     rs.getString(13),
+                                     rs.getString(14),
+                                     rs.getString(15) );
+	    }
+
+	    return fahrzeug;
+	}
+	
+	/*
+	 * 
+	 */
 	public static ArrayList< Fahrzeug > getAllVehiclesFromDatabase( int limit ) throws SQLException, ClassNotFoundException, IOException
 	{
 	    ArrayList< Fahrzeug > list = new ArrayList<>();
