@@ -28,11 +28,13 @@ public class Gruppe1Init
 		Console console = System.console();
 		if( null == console )
 		{
+		    // fallback
 	        System.out.print( "Password: " );
 	        password = bufferedReader.readLine();
 		}
 		else
 		{
+		    // mask password
     		char passwordArray[] = console.readPassword( "Password: " );
     		password = passwordArray.toString();
 		}
