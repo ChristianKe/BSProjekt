@@ -18,8 +18,7 @@ public class Fahrzeug
     private String  mKundenPLZ;
     private String  mKundenOrt;
     private String  mKundenFirma;
-    
-    
+      
     public Fahrzeug( int Id,
                      String fahrgestellnummer,
                      String produktionsdatum,

@@ -449,7 +449,6 @@ public class FZAFrame extends JFrame  {
 		if (groupID != null) {
 			String[] inputNewUser = {name.getText(), vorname.getText(), anmeldeNamen.getText(), passwort.getText(), groupID};
 			if (newUserInputValid(inputNewUser)) {
-				// TODO Methode zum Abspeichern des Neuen Users
 			    
 			    // database connection
 			    Connection connection;
