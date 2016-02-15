@@ -116,9 +116,10 @@ public class UserBearbeitenFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				boolean checkInput = checkInput();
+				System.out.println(checkInput);
 				if (checkInput) {
 					int updateUser = DatabaseStorage.updateUser(input);
-					System.out.println(updateUser);
+					System.out.println("UpdateUser:" + updateUser);
 					if (updateUser == 0) {
 						String bestaetigung = input.get(1) + " " + LR.USERBEARBEITEN[7][languageType];
 						JOptionPane.showMessageDialog(null, bestaetigung , null, JOptionPane.INFORMATION_MESSAGE);
