@@ -45,7 +45,7 @@ public class FZALogin extends JFrame{
 		super();
 		this.setSize(500, 400);
 		centerFrame();
-		this.setResizable(false); // nicht vergrößerbar
+		this.setResizable(false); // nicht vergrï¿½ï¿½erbar
 		this.setTitle("Elektronische Fahrzeugakte");
 		
 		// initialisiert
@@ -124,11 +124,11 @@ public class FZALogin extends JFrame{
 			@Override
 			public void actionPerformed(final ActionEvent e) {
 
-//				String nameAnmeldung = loginName.getText();
-//				String passwortAnmelde = loginPassword.getText();
+				String nameAnmeldung = loginName.getText();
+				String passwortAnmelde = loginPassword.getText();
 				
-				String nameAnmeldung = "admin";
-				String passwortAnmelde = "admin";
+//				String nameAnmeldung = "admin";
+//				String passwortAnmelde = "admin";
 				
 				boolean anmelden = LogginControl.login(nameAnmeldung, passwortAnmelde);
 				if (anmelden) {

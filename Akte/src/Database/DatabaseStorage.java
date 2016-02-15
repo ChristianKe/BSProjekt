@@ -24,13 +24,13 @@ public class DatabaseStorage {
     public static int updateUser( Map< Integer, String > input )
     {
         // TODO> change map indices
-        String  vorname         = input.get(1);
-        String  nachname        = input.get(1);
         String  userName        = input.get(1);
-        String  passwordOld     = input.get(1);
-        String  passwordNew        = input.get(1);
-        String  groupIdString   = input.get(1);
-        int     groupId         = Integer.parseInt( groupIdString );    
+        String  passwordOld     = input.get(2);
+        String  passwordNew     = input.get(3);
+        String  vorname         = input.get(4);
+        String  nachname        = input.get(5);
+        String  groupIdString   = input.get(6);
+        int     groupId         = Integer.parseInt(groupIdString);    
       
       
         // database connection

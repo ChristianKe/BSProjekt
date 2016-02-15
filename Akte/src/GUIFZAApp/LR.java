@@ -19,21 +19,21 @@ public class LR {
 	protected static final String[][] NEUERUSER = {{"Neuer User", "New user"}, {"Neuer User anlegen", "Create new user"}, 
 												   {"Name:*", "surname:*"}, {"Vorname:*", "name:*"} ,
 												   {"Anmeldenamen:*", "login name:*"}, {"Passwort:*", "password:*"}, 
-												   {"User-Gruppe:*", "user group:*"}, {" wurde hinzugef�gt zur Gruppe: ", " was added to group: "}};
+												   {"User-Gruppe:*", "user group:*"}, {" wurde hinzugefügt zur Gruppe: ", " was added to group: "}};
 	protected static final String[][] USERBEARBEITEN = {{"User bearbeiten", "Edit user"}, {"Existierenden User bearbeiten", "Edit existing user"},
-													{"Altes Passwort:*", "old password:*"}, {"Neues Passwort:*", "new password:*"}, {"speichern", "save"}};
+													{"Altes Passwort:*", "old password:*"}, {"Neues Passwort:*", "new password:*"}, {"speichern", "save"}, {" wurde geändert", "was changed"}};
 	protected static final String[][] NEUESFAHRZEUG = {{"Neues Fahrzeug", "New vehicle"}, {"Neues Fahrzeug anlegen", "Create new vehicle"}, {"Anlegen", "Save"}};
 	protected static final String[][] FAHRZEUGBEARBEITEN = {{"Fahrzeug bearbeiten", "Edit vehicle"}, {"Existierendes Fahrzeug bearbeiten", "Edit existing vehicle"}};
 	protected static final String[][] YESNOOPTIONS = {{"Ja", "Nein"}, {"Yes", "No"}};
-	protected static final String[][] MELDUNG = {{"Ung�ltige Fahrgestellnummer!", "Invalid VIN!"}, {"Achtung!", "Attention!"}, {"Kein Fahrzeug gefunden zu:\n", "No results available for:\n"}, {"Fahrzeug angelegt", "Vehicle successfully created"}, {"Fahrzeug bereits vorhanden", "Vehicle already exits"}};
-	protected static final String[] DEFAULTVALUES = {"Keine Fahrzeugdaten geladen", "No vehicle data loaded"};
+	protected static final String[][] MELDUNG = {{"Ungültige Fahrgestellnummer!", "Invalid VIN!"}, {"Achtung!", "Attention!"}, {"Kein Fahrzeug gefunden zu:\n", "No results available for:\n"}, {"Fahrzeug angelegt", "Vehicle successfully created"}, {"Fahrzeug bereits vorhanden", "Vehicle already exits"}};
+	protected static final String[][] DEFAULTVALUES = {{"Keine Fahrzeugdaten geladen", "No vehicle data loaded"}, {"Daten geladen", "Data load"}};
 	protected static final String[][] HILFE = {{"Mit * markierte Felder sind Pflichtfelder.\n", "Fields marked with an asterisk* are obligatory.\n"},
 				{"Die Benutzer-Gruppen sind:\n", "User groups:\n"}, 
 				{"Gruppe1: Lesen.\n", "Group1: read.\n"}, 
 				{"Gruppe2: Lesen, Schreiben.\n", "Group2: read, write.\n"}, 
 				{"Gruppe3: Lesen, Schreiben und Benutzer verwalten.\n", "Group3: read, write and user management.\n"},
-				{"F�r weiter Informationen auf das Icon klicken!.\n", "Click here for further information.\n"}};
-	protected static final String[][] USERGROUPS = {{"", "Gruppe1", "Gruppe2", "Gruppe3"}, {"", "group1", "group2", "group3"}};	
+				{"Für weitere Informationen auf das Icon klicken!.\n", "Click here for further information.\n"}};
+	protected static final String[][] USERGROUPS = {{"", "User", "Manager", "Admin"}, {"", "User", "Manager", "Admin"}};	
 	protected static final String[][] KUNDE = {{"Kunde", "Customer"}, {"Name:*", "Surname:*"}, {"Vorname:*", "Name:*"}, {"Firma: ", "Company: "}, {"Adresse:* ", "Address:* "}, {"PLZ:* ", "Postcode:* "}, {"Ort:* ", "Place:* "}};
 	
 	protected static final String[][] SERVICE = {{"Datum", "Date"}, {"betr. Komponeneten", "affected parts"}};

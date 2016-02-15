@@ -5,21 +5,23 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
-import java.awt.HeadlessException;
 import java.awt.Point;
-import java.awt.ScrollPaneAdjustable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import Database.DatabaseStorage;
 import FZAControl.LogginControl;
 
 
@@ -30,10 +32,12 @@ public class UserBearbeitenFrame extends JFrame {
 	private JTextField userVorname;
 	private JTextField anmeldeName;
 	private JComboBox<String> usergroup;
-	private JPasswordField altesPasswort;
-	private JPasswordField neuesPasswort;
+	private JTextField altesPasswort;
+	private JTextField neuesPasswort;
 	
 	private JButton speichernButton;
+	private Map<Integer, String> input;
+	private String newUsergroup;
 
 	public UserBearbeitenFrame(int breite, int hoehe, int languageType) {
 		// breite, hoehe
@@ -52,7 +56,7 @@ public class UserBearbeitenFrame extends JFrame {
 		userVorname = new JTextField();
 		anmeldeName = new JTextField();
 		String[] userGroups = LR.USERGROUPS[languageType];
-		usergroup = new JComboBox<>(userGroups);
+		usergroup = new JComboBox<String>(userGroups);
 		altesPasswort = new JPasswordField();
 		neuesPasswort = new JPasswordField();
 		
@@ -90,15 +94,41 @@ public class UserBearbeitenFrame extends JFrame {
 		panel.add(speichernButton);
 		panel.add(new JLabel());
 		
+		input = new HashMap<Integer, String>();
+		input.put(1 , anmeldeName.getText());
+		String altesPassAsString = String.valueOf(altesPasswort.getText());
+		input.put(2 , altesPassAsString);
+		String neuesPassAsString = String.valueOf(neuesPasswort.getText());
+		input.put(3 , neuesPassAsString);
+		input.put(4 , userVorname.getText());
+		input.put(5 , userName.getText());
 		
-		speichernButton.addActionListener(new ActionListener(){
-        	@Override
-            public void actionPerformed(ActionEvent e){
-        		boolean checkInput = checkInput();
-        		// TODO abspichern
-        		System.out.println(checkInput);
-        		}
-        });
+		this.usergroup.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				newUsergroup = String.valueOf(usergroup.getSelectedIndex());
+				input.put(6 , newUsergroup);
+			}
+		});
+		
+		
+		speichernButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				boolean checkInput = checkInput();
+				if (checkInput) {
+					int updateUser = DatabaseStorage.updateUser(input);
+					System.out.println(updateUser);
+					if (updateUser == 0) {
+						String bestaetigung = input.get(1) + " " + LR.USERBEARBEITEN[7][languageType];
+						JOptionPane.showMessageDialog(null, bestaetigung , null, JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "Problem" , null, JOptionPane.WARNING_MESSAGE);
+					}
+				}
+
+			}
+		});
 		
 		
 		contentPane.add(panel, BorderLayout.CENTER);
@@ -111,22 +141,12 @@ public class UserBearbeitenFrame extends JFrame {
 	
 	private boolean checkInput() {
 		boolean retval = false;
-		String name = userName.getText();
-		String vorname = userVorname.getText();
 		
 		String anmeldungsName = anmeldeName.getText();
-		String altesPass = String.valueOf(altesPasswort.getPassword());
-		
-		boolean login = LogginControl.login(anmeldungsName, altesPass);
-		
-		String pName = LogginControl.getCurrentUser().getName();
-		String pVorname = LogginControl.getCurrentUser().getVorname();
-		if (login && pName.equals(name) && pVorname.equals(vorname)) {
-			retval = true;
-		}
+		String altesPass = altesPasswort.getText();
+		retval = LogginControl.login(anmeldungsName, altesPass);
 		
 		return retval;
-		
 	}
 
 
