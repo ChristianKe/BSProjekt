@@ -19,19 +19,23 @@ public class FahrzeugData extends CenterPanel {
 	private JTable table;
 	private JScrollPane scrollPane;
 	private DefaultTableModel model;
+	private Fahrzeug aktuellesFahrzeug;
 	
-	public FahrzeugData(Container contentPane, JPanel centerPanel,
+	public FahrzeugData(Fahrzeug pAktuellesFahrzeug, Container contentPane, JPanel centerPanel,
 			int languageType) {
 		super(contentPane, centerPanel, languageType);
 		JLabel infoLabel = new JLabel(LR.FAHRZEUG[0][languageType], SwingConstants.CENTER);
 		infoLabel.setFont(new Font("Arial", Font.BOLD, 22));
 		super.add(infoLabel, BorderLayout.NORTH);
+		
+		aktuellesFahrzeug = pAktuellesFahrzeug;
+		
 		model = new DefaultTableModel();
 		
 		model.addColumn(" ");
 		model.addColumn(" ");
 		
-		completeTableWithFahrzeugData(model, languageType);
+		completeTableWithFahrzeugData(pAktuellesFahrzeug, model, languageType);
 		
 		table = new JTable(model);	
 		scrollPane = new JScrollPane(table);
@@ -42,31 +46,46 @@ public class FahrzeugData extends CenterPanel {
 	
 	
 
-	private void completeTableWithFahrzeugData(DefaultTableModel model, int languageType) {
+	private void completeTableWithFahrzeugData(Fahrzeug fahrzeug, DefaultTableModel model, int languageType) {
 		
-		ArrayList<String> versuchsData = new ArrayList<>(); // TODO
-//		versuchsData.add("BMW");
-//		versuchsData.add("2014");
-//		versuchsData.add("coupe");
-//		versuchsData.add("124734");
-//		versuchsData.add("200");
-//		versuchsData.add("2");
-//		versuchsData.add("1er");
-//		versuchsData.add("b5643456");
-//		versuchsData.add("ED-K-1410");
-//		
-//		versuchsData.add("Name");
-//		versuchsData.add("Vorname");
-//		versuchsData.add("FirmaAdresse");
-//		versuchsData.add("PLZ");
-//		versuchsData.add("Ort");
+		ArrayList<String> fahrzeugData = new ArrayList<>(); 
+//		fahrzeugData.add(fahrzeug.getmMarke());
+//		fahrzeugData.add(fahrzeug.getmProduktionsdatum());
+//		fahrzeugData.add(fahrzeug.getmTyp());
+//		fahrzeugData.add(String.valueOf(fahrzeug.getmKilometerstand()));
+//		fahrzeugData.add(String.valueOf(fahrzeug.getmLeistung()));
+//		fahrzeugData.add(fahrzeug.getmKraftstoff());
+//		fahrzeugData.add(fahrzeug.getmModell());
+//		fahrzeugData.add(fahrzeug.getmFahrgestellnummer());
+//		fahrzeugData.add(fahrzeug.getmKennzeichen());
+//		fahrzeugData.add(fahrzeug.getmKundenName());
+//		fahrzeugData.add(fahrzeug.getmKundenVorname());
+//		fahrzeugData.add(fahrzeug.getmKundenFirma());
+//		fahrzeugData.add(fahrzeug.getmKundenPLZ());
+//		fahrzeugData.add(fahrzeug.getmKundenOrt());
+	
+		fahrzeugData.add("BMW"); 
+		fahrzeugData.add("2014");
+		fahrzeugData.add("coupe");
+		fahrzeugData.add("124734");
+		fahrzeugData.add("200");
+		fahrzeugData.add("2");
+		fahrzeugData.add("1er");
+		fahrzeugData.add("b5643456");
+		fahrzeugData.add("ED-K-1410");
+		
+		fahrzeugData.add("Name");
+		fahrzeugData.add("Vorname");
+		fahrzeugData.add("FirmaAdresse");
+		fahrzeugData.add("PLZ");
+		fahrzeugData.add("Ort");
 		
 		
 		Vector<String> rowData;
-		for (int i = 0; i < versuchsData.size(); i++) {
+		for (int i = 0; i < fahrzeugData.size(); i++) {
 			rowData = new Vector<String>();
 			rowData.add(0, LR.FAHRZEUGANZEIGE[i][languageType].toUpperCase());
-			String str = versuchsData.get(i);
+			String str = fahrzeugData.get(i);
 			if (i == 5 && (str.equals("1") || str.equals("2"))) {
 				if (str.equals("1")) {
 					str = "Benzin";

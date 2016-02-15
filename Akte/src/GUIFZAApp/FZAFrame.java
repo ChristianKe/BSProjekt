@@ -15,6 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -31,6 +32,7 @@ import javax.swing.SwingConstants;
 
 import com.mysql.jdbc.StringUtils;
 
+import Database.DatabaseRessourres;
 import FZAControl.User;
 
 
@@ -58,7 +60,6 @@ public class FZAFrame extends JFrame  {
 
 
 	private static final int southCols = 6;
-
 
 
 	
@@ -94,6 +95,8 @@ public class FZAFrame extends JFrame  {
 
 	private JLabel defaultInfoLabel;
 	private JLabel currentUserLabel;
+
+	private Fahrzeug vehicleFromDatabase;
 	
 	
 	// Konstruktor für ein Frame, Parameter ist currentUser
@@ -325,7 +328,7 @@ public class FZAFrame extends JFrame  {
 	
 	
 	private void showFahrzeugDetails() {
-		CenterPanel fahrzeugData = new FahrzeugData(contentPane, centerPanel, languageType);
+		CenterPanel fahrzeugData = new FahrzeugData(vehicleFromDatabase ,contentPane, centerPanel, languageType);
 	}
 
 
@@ -387,7 +390,7 @@ public class FZAFrame extends JFrame  {
 		notifyUserInvalidParameter();	
 		} else {
 			
-			if (true) {
+			if (fahrzeugNichtGefunden(fahrgestellnummer)) {
 				notifyUserEmptyResult(fahrgestellnummer);
 			} else {
 			// TODO
@@ -399,6 +402,17 @@ public class FZAFrame extends JFrame  {
 			}
 		}
 	}
+
+
+	private boolean fahrzeugNichtGefunden(String fahrgestellnummer) {
+		try {
+			vehicleFromDatabase = DatabaseRessourres.getVehicleFromDatabase(fahrgestellnummer);
+		} catch (ClassNotFoundException | SQLException | IOException e) {
+			e.printStackTrace();
+		}
+		return (vehicleFromDatabase == null);
+	}
+
 
 
 	// Info zur ergebnislosen Suche
