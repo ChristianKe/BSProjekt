@@ -127,7 +127,7 @@ public class DatabaseRessourres {
 	    connection = ConnectionUtil.getConnection();
 	    
 	    // query vehicle data
-	    String sql = "SELECT * FROM allVehicles WHERE Fahrzeug.fahrgestellNummer=?";
+	    String sql = "SELECT * FROM allVehicles WHERE fahrgestellNummer=?";
 	    PreparedStatement stmt = connection.prepareStatement( sql );
 	    stmt.setString( 1, fahrgestellNummer );
 	    ResultSet rs = stmt.executeQuery();
