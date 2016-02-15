@@ -5,9 +5,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import FZAControl.ConnectionUtil;
+import GUIFZAApp.Fahrzeug;
 
 public class DatabaseRessourres {
 	
@@ -113,7 +115,52 @@ public class DatabaseRessourres {
 		return arrayList.toArray(new String[arrayList.size()]);
 	}
 	
-	
+	public static ArrayList< Fahrzeug > getAllVehiclesFromDatabase( int limit ) throws SQLException, ClassNotFoundException, IOException
+	{
+	    ArrayList< Fahrzeug > list = new ArrayList<>();
+	    
+	    String sql = "";
+	    if( 0 > limit )  // no limit
+	    {
+	        sql = "SELECT * FROM allVehicles";
+	    }
+	    else
+	    {
+	        sql = "SELECT * FROM allVehicles LIMIT " + limit;
+	    }
+	    
+	    // database connection
+        Connection connection;
+        connection = ConnectionUtil.getConnection();
+
+        // query vehicle data
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery( sql );
+        
+        while( rs.next() )
+        {
+            Fahrzeug fahrzeug = new Fahrzeug( rs.getString(1),
+                                              rs.getString(2),
+                                              rs.getInt(3),
+                                              rs.getInt(4),
+                                              rs.getString(5),
+                                              rs.getString(6),
+                                              rs.getString(7),
+                                              rs.getString(8),
+                                              rs.getString(9),
+                                              rs.getString(10),
+                                              rs.getString(11),
+                                              rs.getString(12),
+                                              rs.getString(13),
+                                              rs.getString(14),
+                                              rs.getString(15) );
+            
+            list.add( fahrzeug );
+                                             
+        }
+        
+	    return list;
+	}
 	
 
 

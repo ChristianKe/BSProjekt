@@ -27,8 +27,8 @@ public class DatabaseStorage {
         String  vorname         = input.get(1);
         String  nachname        = input.get(1);
         String  userName        = input.get(1);
-        String  passwortOld     = input.get(1);
-        String  password        = input.get(1);
+        String  passwordOld     = input.get(1);
+        String  passwordNew        = input.get(1);
         String  groupIdString   = input.get(1);
         int     groupId         = Integer.parseInt( groupIdString );    
       
@@ -46,10 +46,14 @@ public class DatabaseStorage {
       
         try
         {
-            String sql = "CALL updateUser()";   // TODO
-            
+            String sql = "CALL updateUser( ?, ?, ?, ?, ?, ? )";        
             PreparedStatement stmt = connection.prepareStatement( sql );
-            // TODO set...
+            stmt.setString( 1, userName );
+            stmt.setString( 2, passwordOld );
+            stmt.setString( 3, passwordNew );
+            stmt.setString( 4, vorname );
+            stmt.setString( 5, nachname );
+            stmt.setInt( 6, groupId );
             stmt.execute();
         }
         catch( SQLException e )
@@ -63,12 +67,12 @@ public class DatabaseStorage {
     public static int storeNewUser( Map< Integer, String > input )
     {
         // TODO: change map indices
-      String  vorname         = input.get(1);
-      String  nachname        = input.get(1);
-      String  userName        = input.get(1);
-      String  password        = input.get(1);
-      String  groupIdString   = input.get(1);
-      int     groupId         = Integer.parseInt( groupIdString );
+        String  vorname         = input.get(1);
+        String  nachname        = input.get(1);
+        String  userName        = input.get(1);
+        String  password        = input.get(1);
+        String  groupIdString   = input.get(1);
+        int     groupId         = Integer.parseInt( groupIdString );
         
         // database connection
         Connection connection;
@@ -193,11 +197,10 @@ public class DatabaseStorage {
         int customerId = 0;
         try
         {
-            ResultSet rs = null;
             Statement statement = connection.createStatement();
             String sql = "SELECT id FROM allCustomers WHERE Name='" +
                          kundenName + "' AND Vorname='" + kundenVorname + "'";
-            rs = statement.executeQuery( sql );
+            ResultSet rs = statement.executeQuery( sql );
             
             if( rs.next() )
             {
