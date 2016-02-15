@@ -44,7 +44,7 @@ INSERT INTO Fahrzeugmarke (bezeichnung)
 VALUES
 	( 'Audi' ),
 	( 'BMW' ),
-	( 'Opel' ),
+	( 'Opel' );
 --	( 'Toyota' ),
 --	( 'Ferrari' ),
 --	( 'Trabant' ),
