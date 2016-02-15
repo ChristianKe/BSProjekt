@@ -2,7 +2,7 @@ package GUIFZAApp;
 
 public class Fahrzeug
 {
-	
+	private int     mId;
     private String  mFahrgestellnummer;
     private String  mProduktionsdatum;
     private int     mKilometerstand;
@@ -20,7 +20,8 @@ public class Fahrzeug
     private String  mKundenFirma;
     
     
-    public Fahrzeug( String fahrgestellnummer,
+    public Fahrzeug( int Id,
+                     String fahrgestellnummer,
                      String produktionsdatum,
                      int kilometerstand,
                      int leistung,

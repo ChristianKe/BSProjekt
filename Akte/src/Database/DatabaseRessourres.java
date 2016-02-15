@@ -134,11 +134,11 @@ public class DatabaseRessourres {
 	    
 	    if( rs.next() )
 	    {
-	        fahrzeug = new Fahrzeug( rs.getString(1),
-                                     rs.getString(2),
-                                     rs.getInt(3),
+	        fahrzeug = new Fahrzeug( rs.getInt(1),
+	                                 rs.getString(2),
+                                     rs.getString(3),
                                      rs.getInt(4),
-                                     rs.getString(5),
+                                     rs.getInt(5),
                                      rs.getString(6),
                                      rs.getString(7),
                                      rs.getString(8),
@@ -148,7 +148,8 @@ public class DatabaseRessourres {
                                      rs.getString(12),
                                      rs.getString(13),
                                      rs.getString(14),
-                                     rs.getString(15) );
+                                     rs.getString(15),
+                                     rs.getString(16) );
 	    }
 
 	    return fahrzeug;
@@ -181,11 +182,11 @@ public class DatabaseRessourres {
         
         while( rs.next() )
         {
-            Fahrzeug fahrzeug = new Fahrzeug( rs.getString(1),
+            Fahrzeug fahrzeug = new Fahrzeug( rs.getInt(1),
                                               rs.getString(2),
-                                              rs.getInt(3),
+                                              rs.getString(3),
                                               rs.getInt(4),
-                                              rs.getString(5),
+                                              rs.getInt(5),
                                               rs.getString(6),
                                               rs.getString(7),
                                               rs.getString(8),
@@ -195,8 +196,9 @@ public class DatabaseRessourres {
                                               rs.getString(12),
                                               rs.getString(13),
                                               rs.getString(14),
-                                              rs.getString(15) );
-            
+                                              rs.getString(15),
+                                              rs.getString(16) );
+                                        
             list.add( fahrzeug );
                                              
         }

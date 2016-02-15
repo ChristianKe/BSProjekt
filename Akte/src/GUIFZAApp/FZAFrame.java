@@ -15,6 +15,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -31,6 +34,7 @@ import javax.swing.SwingConstants;
 
 import com.mysql.jdbc.StringUtils;
 
+import FZAControl.ConnectionUtil;
 import FZAControl.User;
 
 
@@ -53,7 +57,7 @@ public class FZAFrame extends JFrame  {
 
 	private static final int ROWSFOREASTPANEL = 7;
 
-	// Farben für die linke Button-Spalte
+	// Farben fï¿½r die linke Button-Spalte
 	private static final Color color = new Color(0, 153, 238);
 
 
@@ -77,11 +81,11 @@ public class FZAFrame extends JFrame  {
 	
 	private JButton languageButton;
 	
-	// button für Admin zum Benutzer anlegen und bearbeiten 
+	// button fï¿½r Admin zum Benutzer anlegen und bearbeiten 
 	private JButton neuerUser;
 	private JButton userBearbeiten;
 	
-	// button für Admin zum Fahrzeug anlegen und bearbeiten 
+	// button fï¿½r Admin zum Fahrzeug anlegen und bearbeiten 
 	private JButton neuesFahrzeug;
 	private JButton fahrzeugBearbeiten;
 	
@@ -89,18 +93,18 @@ public class FZAFrame extends JFrame  {
 	
 	private JPanel centerPanel;
 
-	// 0 für deutsch, 1 für englisch
+	// 0 fï¿½r deutsch, 1 fï¿½r englisch
 	private int languageType;
 
 	private JLabel defaultInfoLabel;
 	private JLabel currentUserLabel;
 	
 	
-	// Konstruktor für ein Frame, Parameter ist currentUser
+	// Konstruktor fï¿½r ein Frame, Parameter ist currentUser
 	public FZAFrame(User currentUser) throws HeadlessException {
 		super();
 		this.setSize(WIDTHMAINFRAME, HEIGHTMAINFRAME);
-		this.setResizable(false); // nicht vergrößerbar
+		this.setResizable(false); // nicht vergrï¿½ï¿½erbar
 		centerFrame();
 		this.languageType = 0; // Deutsch als Initial-Sprache
 		this.setTitle(LR.APPLIKATIONSNAME[languageType]);
@@ -150,17 +154,22 @@ public class FZAFrame extends JFrame  {
 		});
 		
 		
-		// Button zum Anlegen eines neuen Users nur für Admins
+		// Button zum Anlegen eines neuen Users nur fï¿½r Admins
 		this.neuerUser = new JButton(LR.NEUERUSER[0][languageType]);
 		this.neuerUser.setToolTipText(LR.NEUERUSER[1][languageType]);
 		this.neuerUser.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(final ActionEvent e) {
-				neuerUserAnlegen("","", "","", "");
+				try {
+                    neuerUserAnlegen("","", "","", "");
+                } catch (ClassNotFoundException | SQLException | IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
 				}
 		});
 		
-		// Button zum Bearbeiten eines Users nur für Admins
+		// Button zum Bearbeiten eines Users nur fï¿½r Admins
 		this.userBearbeiten = new JButton(LR.USERBEARBEITEN[0][languageType]);
 		this.userBearbeiten.setToolTipText(LR.USERBEARBEITEN[1][languageType]);
 		this.userBearbeiten.addActionListener(new ActionListener() {
@@ -170,7 +179,7 @@ public class FZAFrame extends JFrame  {
 				}
 		});
 		
-		// Button zum Anlegen eines neuen Fahrzeugs nur für Admins
+		// Button zum Anlegen eines neuen Fahrzeugs nur fï¿½r Admins
 		this.neuesFahrzeug = new JButton(LR.NEUESFAHRZEUG[0][languageType]);
 		this.neuesFahrzeug.setToolTipText(LR.NEUESFAHRZEUG[1][languageType]);
 		this.neuesFahrzeug.addActionListener(new ActionListener() {
@@ -180,7 +189,7 @@ public class FZAFrame extends JFrame  {
 				}
 		});
 		
-		// Button zum Bearbeiten eine Fahrzeugs nur für Admins
+		// Button zum Bearbeiten eine Fahrzeugs nur fï¿½r Admins
 		this.fahrzeugBearbeiten = new JButton(LR.FAHRZEUGBEARBEITEN[0][languageType]);
 		this.fahrzeugBearbeiten.setToolTipText(LR.FAHRZEUGBEARBEITEN[1][languageType]);
 		this.fahrzeugBearbeiten.addActionListener(new ActionListener() {
@@ -241,7 +250,7 @@ public class FZAFrame extends JFrame  {
 		
 		northPanel.add(languageButton);
 		
-		// Initialisierung de Logout-Button Icon möglich
+		// Initialisierung de Logout-Button Icon mï¿½glich
 		this.logoutButton = new JButton("logout", null);
 		logoutButton.addActionListener(new ActionListener() {
 			@Override
@@ -363,11 +372,11 @@ public class FZAFrame extends JFrame  {
 		this.languageButton.setToolTipText(LR.LANGUAGE[1][languageType]);
 		this.currentUserLabel.setText(LR.AKTUELLERUSER[languageType]);
 		this.defaultInfoLabel.setText(LR.DEFAULTVALUES[languageType]);
-		// Menü-Button linke Seite
+		// Menï¿½-Button linke Seite
 		this.ausstattungsButton.setText(LR.AUSSTATTUNG[languageType]);
 		this.fahrzeugButton.setText(LR.FAHRZEUG[0][languageType]);
 		this.serviceEventsButton.setText(LR.SERVICEFAELLE[languageType]);
-		// 6 Buttons nur für Admins
+		// 6 Buttons nur fï¿½r Admins
 		this.neuerUser.setText(LR.NEUERUSER[0][languageType]);
 		this.neuerUser.setToolTipText(LR.NEUERUSER[1][languageType]);
 		this.userBearbeiten.setText(LR.USERBEARBEITEN[0][languageType]);
@@ -409,7 +418,7 @@ public class FZAFrame extends JFrame  {
 
 
 
-	// Info zur ungültigen Eingabe
+	// Info zur ungï¿½ltigen Eingabe
 	private void notifyUserInvalidParameter() {
 		 JOptionPane.showMessageDialog(null, LR.MELDUNG[0][languageType], LR.MELDUNG[1][languageType], JOptionPane.WARNING_MESSAGE);
 	}
@@ -417,7 +426,7 @@ public class FZAFrame extends JFrame  {
 
 
 	// neuen User Anlegen
-	private void neuerUserAnlegen(String pName, String pVorname, String pAnmeldeNamen, String pPasswort, String pGroupId) {
+	private void neuerUserAnlegen(String pName, String pVorname, String pAnmeldeNamen, String pPasswort, String pGroupId) throws ClassNotFoundException, SQLException, IOException {
 		
 		JTextField name = new JTextField(pName);
 		JTextField vorname = new JTextField(pVorname);
@@ -441,6 +450,22 @@ public class FZAFrame extends JFrame  {
 			String[] inputNewUser = {name.getText(), vorname.getText(), anmeldeNamen.getText(), passwort.getText(), groupID};
 			if (newUserInputValid(inputNewUser)) {
 				// TODO Methode zum Abspeichern des Neuen Users
+			    
+			    // database connection
+			    Connection connection;
+			    connection = ConnectionUtil.getConnection();
+			    
+			    // add user
+			    String sql = "CALL addUser(?, ?, ?, ?, ?)";
+			    PreparedStatement stmt = connection.prepareStatement( sql );
+			    stmt.setString( 1, anmeldeNamen.getText() );
+			    stmt.setString( 2, passwort.getText() );
+			    stmt.setString( 3, name.getText() );
+			    stmt.setString( 4, vorname.getText() );
+			    stmt.setInt( 5, Integer.parseInt( groupID ) );
+			     
+			    stmt.execute();
+			     
 				confirmationNewUser(inputNewUser);   // Datenhalter: inputNewUser
 				System.out.println("Name " + inputNewUser[0] + " Vorname "+ inputNewUser[1] + "   " + inputNewUser[2] + "   " + inputNewUser[3]+  " Gruppe " + inputNewUser[4]);
 				}
@@ -469,7 +494,7 @@ public class FZAFrame extends JFrame  {
 
 
 
-	// Bestätigung das ein neuer User angelegt wurde
+	// Bestaetigung das ein neuer User angelegt wurde
 	private void confirmationNewUser(String[] inputNewUser) {
 		String bestaetigung = inputNewUser[1] + " " + inputNewUser[0] + LR.NEUERUSER[7][languageType] + inputNewUser[4];
 		JOptionPane.showMessageDialog(null, bestaetigung, null, JOptionPane.INFORMATION_MESSAGE);
@@ -477,8 +502,8 @@ public class FZAFrame extends JFrame  {
 
 
 
-	// Überprüfung ob alle * Felder befüllt
-	private boolean newUserInputValid(String[] inputNewUser) {
+	//Ueï¿½berpruefung ob alle * Felder befï¿½llt
+	private boolean newUserInputValid(String[] inputNewUser) throws ClassNotFoundException, SQLException, IOException {
 		boolean invalid = true;
 		for (int i = 0; i < inputNewUser.length; i++) {
 			if (StringUtils.isEmptyOrWhitespaceOnly(inputNewUser[i])) {
