@@ -58,6 +58,7 @@ public class DatabaseStorage {
         }
         catch( SQLException e )
         {
+            e.printStackTrace();
             return ERROR_WRONG_USER_CREDENTIALS;
         }
 

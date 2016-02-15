@@ -461,7 +461,7 @@ CREATE PROCEDURE `updateUser`
   inNachname VARCHAR(255),
   inGroupId INT)
 BEGIN
-	UPDATE User SET userPassword=inPasswordNew, Name=inName, Vorname=inVorname, Usergroup_Id=inUsergroupId
+	UPDATE User SET userPassword=inPasswordNew, Name=inNachname, Vorname=inVorname, Usergroup_Id=inGroupId
 	WHERE userName = inUserName;
 END;
 
