@@ -58,7 +58,7 @@ public class FZAFrame extends JFrame  {
 
 	private static final int ROWSFOREASTPANEL = 7;
 
-	// Farben f�r die linke Button-Spalte
+	// Farben für die linke Button-Spalte
 	private static final Color color = new Color(0, 153, 238);
 
 
@@ -81,11 +81,11 @@ public class FZAFrame extends JFrame  {
 	
 	private JButton languageButton;
 	
-	// button f�r Admin zum Benutzer anlegen und bearbeiten 
+	// button für Admin zum Benutzer anlegen und bearbeiten 
 	private JButton neuerUser;
 	private JButton userBearbeiten;
 	
-	// button f�r Admin zum Fahrzeug anlegen und bearbeiten 
+	// button für Admin zum Fahrzeug anlegen und bearbeiten 
 	private JButton neuesFahrzeug;
 	private JButton fahrzeugBearbeiten;
 	
@@ -93,20 +93,24 @@ public class FZAFrame extends JFrame  {
 	
 	private JPanel centerPanel;
 
-	// 0 f�r deutsch, 1 f�r englisch
+	// 0 für deutsch, 1 für englisch
 	private int languageType;
 
 	private JLabel defaultInfoLabel;
 	private JLabel currentUserLabel;
 
 	private Fahrzeug vehicleFromDatabase;
+
+	private CenterPanel datensatzFuerCenterPanel;
+
+	private ArrayList<String> lastAction;
 	
 	
-	// Konstruktor f�r ein Frame, Parameter ist currentUser
+	// Konstruktor für ein Frame, Parameter ist currentUser
 	public FZAFrame(User currentUser) throws HeadlessException {
 		super();
 		this.setSize(WIDTHMAINFRAME, HEIGHTMAINFRAME);
-		this.setResizable(false); // nicht vergr��erbar
+		this.setResizable(false); // nicht vergrößerbar
 		centerFrame();
 		this.languageType = 0; // Deutsch als Initial-Sprache
 		this.setTitle(LR.APPLIKATIONSNAME[languageType]);
@@ -201,18 +205,19 @@ public class FZAFrame extends JFrame  {
 		});
 		
 		
-		// DefaultPanel als CenterPanel in itialisiert 
-		this.centerPanel = new JPanel();
-		centerPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		defaultInfoLabel = new JLabel();
-		defaultInfoLabel.setFont(new Font("Arial", Font.BOLD, 22));
-		defaultInfoLabel.setText(LR.DEFAULTVALUES[0][languageType]);
-		this.centerPanel.add(defaultInfoLabel);
+		// DefaultPanel als CenterPanel in initialisiert 
+		setDefaultPanel();
+//		this.centerPanel = new JPanel();
+//		centerPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+//		defaultInfoLabel = new JLabel();
+//		defaultInfoLabel.setFont(new Font("Arial", Font.BOLD, 22));
+//		defaultInfoLabel.setText(LR.DEFAULTVALUES[0][languageType]);
+//		this.centerPanel.add(defaultInfoLabel);
 		
-	
 		
 		this.setLayout(new BorderLayout());
 		contentPane = this.getContentPane();
+		
 		
 		JPanel northPanel = new JPanel();
 		northPanel.setLayout(new GridLayout(3, NORTHPANELSPALTENANZAHL));
@@ -299,7 +304,7 @@ public class FZAFrame extends JFrame  {
 			
 			contentPane.add(southPanel, BorderLayout.SOUTH);
 			
-			//ReaWrite-Access 
+			//ReadWrite-Access 
 		} else if (currentUser.isWriteAccess()) {
 						
 			southPanel.add(new JLabel());
@@ -328,32 +333,46 @@ public class FZAFrame extends JFrame  {
 		
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		lastAction = new ArrayList<>();
 		
-// ende Konstruktor		
+	}  // ende Konstruktor
+	
+	
+	// Setz ein Defaultpanel
+	private void setDefaultPanel() {
+		this.centerPanel = new JPanel();
+		centerPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		defaultInfoLabel = new JLabel();
+		defaultInfoLabel.setFont(new Font("Arial", Font.BOLD, 22));
+		defaultInfoLabel.setText(LR.DEFAULTVALUES[0][languageType]);
+		this.centerPanel.add(defaultInfoLabel);		
 	}
+
 	
 	
-	
+	// Methode zum laden der Daten bei Klick auf...
 	private void showFahrzeugDetails() {
 		if (vehicleFromDatabase != null) {
-		CenterPanel fahrzeugData = new FahrzeugData(vehicleFromDatabase ,contentPane, centerPanel, languageType);
+			datensatzFuerCenterPanel = new FahrzeugData(vehicleFromDatabase, contentPane, centerPanel, languageType);
+			lastAction.add("F");
 		}
 	}
 
 
-
+	// Methode zum laden der Daten bei Klick auf...
 	private void showServiceEvents() {
-		CenterPanel serviceEvents = new ServiceEvent(contentPane, centerPanel, languageType);
+		if (vehicleFromDatabase != null) {
+			datensatzFuerCenterPanel = new ServiceEvent(vehicleFromDatabase, contentPane, centerPanel, languageType);
+			lastAction.add("S");
+		}
 	}
 
 
-
+	// Methode zum laden der Daten bei Klick auf...
 	private void showFahrzeugAusstatung() {
-		// TODO 
 		this.contentPane.remove(centerPanel);
 		JPanel newJPanel = new JPanel();
 		newJPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		
 		this.contentPane.add(newJPanel);
 		this.contentPane.revalidate();
 	}
@@ -373,11 +392,11 @@ public class FZAFrame extends JFrame  {
 		this.languageButton.setToolTipText(LR.LANGUAGE[1][languageType]);
 		this.currentUserLabel.setText(LR.AKTUELLERUSER[languageType]);
 		this.defaultInfoLabel.setText(LR.DEFAULTVALUES[0][languageType]);
-		// Men�-Button linke Seite
+		// Menü-Button linke Seite
 		this.ausstattungsButton.setText(LR.AUSSTATTUNG[languageType]);
 		this.fahrzeugButton.setText(LR.FAHRZEUG[0][languageType]);
 		this.serviceEventsButton.setText(LR.SERVICEFAELLE[languageType]);
-		// 6 Buttons nur f�r Admins
+		// 6 Buttons nur für Admins
 		this.neuerUser.setText(LR.NEUERUSER[0][languageType]);
 		this.neuerUser.setToolTipText(LR.NEUERUSER[1][languageType]);
 		this.userBearbeiten.setText(LR.USERBEARBEITEN[0][languageType]);
@@ -386,6 +405,15 @@ public class FZAFrame extends JFrame  {
 		this.neuesFahrzeug.setToolTipText(LR.NEUESFAHRZEUG[1][languageType]);
 		this.fahrzeugBearbeiten.setText(LR.FAHRZEUGBEARBEITEN[0][languageType]);
 		this.fahrzeugBearbeiten.setToolTipText(LR.FAHRZEUGBEARBEITEN[1][languageType]);
+		
+		int lastUserAction = lastAction.size() - 1;
+		if (lastAction.get(lastUserAction).equals("F")) {
+			// Fahrzeug-View wird nachgeladen
+			this.datensatzFuerCenterPanel = new FahrzeugData(vehicleFromDatabase ,contentPane, centerPanel, languageType);
+		} else if (lastAction.get(lastUserAction).equals("S")) {
+			// Service Events wird nachgeladen
+			this.datensatzFuerCenterPanel = new ServiceEvent(vehicleFromDatabase, contentPane, centerPanel, languageType);
+		}
 	}
 
 
@@ -424,7 +452,7 @@ public class FZAFrame extends JFrame  {
 
 
 
-	// Info zur ung�ltigen Eingabe
+	// Info zur ungültigen Eingabe
 	private void notifyUserInvalidParameter() {
 		 JOptionPane.showMessageDialog(null, LR.MELDUNG[0][languageType], LR.MELDUNG[1][languageType], JOptionPane.WARNING_MESSAGE);
 	}
@@ -556,14 +584,14 @@ public class FZAFrame extends JFrame  {
 	
 	// neues Fahrzeug anlegen
 	private void neuesFahrzeugAnlegen() {
-		NFF frameNeu = new NFF(WIDTH, HEIGHT, languageType);
+		NeuesFahrzeugFrame neuesFahrzeug = new NeuesFahrzeugFrame(WIDTH, HEIGHT, languageType);
 	}
 
 
 
 	// Fahrzeug bearbeiten
 	private void fahrzeugBearbeiten() {
-		// TODO 
+		FahrzeugbearbeitenFrame fahrzeugBearbeiten = new FahrzeugbearbeitenFrame(WIDTH, HEIGHT, languageType);
 	}
 	
 	

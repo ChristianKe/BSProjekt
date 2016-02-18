@@ -64,21 +64,7 @@ public class FahrzeugData extends CenterPanel {
 		fahrzeugData.add(fahrzeug.getmKundenPLZ());
 		fahrzeugData.add(fahrzeug.getmKundenOrt());
 	
-//		fahrzeugData.add("BMW"); 
-//		fahrzeugData.add("2014");
-//		fahrzeugData.add("coupe");
-//		fahrzeugData.add("124734");
-//		fahrzeugData.add("200");
-//		fahrzeugData.add("2");
-//		fahrzeugData.add("1er");
-//		fahrzeugData.add("b5643456");
-//		fahrzeugData.add("ED-K-1410");
-//		
-//		fahrzeugData.add("Name");
-//		fahrzeugData.add("Vorname");
-//		fahrzeugData.add("FirmaAdresse");
-//		fahrzeugData.add("PLZ");
-//		fahrzeugData.add("Ort");
+
 		
 		
 		Vector<String> rowData;

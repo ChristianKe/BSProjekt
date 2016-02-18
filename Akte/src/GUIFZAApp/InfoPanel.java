@@ -10,10 +10,12 @@ import javax.swing.SwingConstants;
 
 public class InfoPanel extends CenterPanel {
 
-	public InfoPanel(Container contentPane, JPanel centerPanel, int languageType) {
+	public InfoPanel(Container contentPane,
+			JPanel centerPanel, int languageType) {
 		super(contentPane, centerPanel, languageType);
-		JLabel infoLabel = new JLabel(LR.DEFAULTVALUES[1][languageType], SwingConstants.CENTER);
-		infoLabel.setFont(new Font("Arial", Font.BOLD, 22));
+		JLabel infoLabel;
+			infoLabel = new JLabel(LR.DEFAULTVALUES[1][languageType], SwingConstants.CENTER);
+			infoLabel.setFont(new Font("Arial", Font.BOLD, 22));
 		super.add(infoLabel, BorderLayout.NORTH);
 	}
 

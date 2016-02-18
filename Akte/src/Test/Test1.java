@@ -17,6 +17,7 @@ public class Test1 {
 	String[] typenFromDatabase = null;
 	String[] markenFromDatabase = null;
 	String[] modellFromDatabase = null;
+	String[] allFahrgestellnumbers = null;
 	
 	@Test
 	public void testGetTypesFromDatabase() {
@@ -39,7 +40,7 @@ public class Test1 {
 	@Test
 	public void testGetModelFromDatabase() {
 		modellFromDatabase = DatabaseRessourres.getModelFromDatabase(2);
-		assertTrue("Test2", modellFromDatabase.length > 0);
+		assertTrue("Test3", modellFromDatabase.length > 0);
 		for (String vo : modellFromDatabase) {
 			System.out.println(vo.toString());
 		}
@@ -67,6 +68,12 @@ public class Test1 {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
+	}
+	
+	@Test
+	public void testGetAllFahrgestellnumbers() {
+		allFahrgestellnumbers  = DatabaseRessourres.getAllFahrgestellnumbers();
+		assertTrue("Test4", allFahrgestellnumbers.length > 0);
 	}
 
 

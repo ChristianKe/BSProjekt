@@ -23,7 +23,7 @@ public class ServiceEvent extends CenterPanel {
 	private JScrollPane scrollPane;
 	private DefaultTableModel model;
 
-	public ServiceEvent(Container contentPane, JPanel centerPanel, int languageType) {
+	public ServiceEvent(Fahrzeug pAktuellesFahrzeug, Container contentPane, JPanel centerPanel, int languageType) {
 		super(contentPane, centerPanel, languageType);
 		JLabel infoLabel = new JLabel(LR.SERVICEFAELLE[languageType], SwingConstants.CENTER);
 		infoLabel.setFont(new Font("Arial", Font.BOLD, 22));
@@ -31,17 +31,29 @@ public class ServiceEvent extends CenterPanel {
 		model = new DefaultTableModel();
 		
 		model.addColumn(LR.SERVICE[0][languageType].toUpperCase());
-		model.addColumn("Vorname");
-		model.addColumn("GEBDATUM");
-		model.addRow(new String[] {"Name", "Vorname", "Gebdatum"});
+		model.addColumn(LR.SERVICE[1][languageType].toUpperCase());
+		model.addColumn(LR.SERVICE[2][languageType].toUpperCase());
+		
+		completeTableWithFahrzeugData(pAktuellesFahrzeug, model, languageType);
+		
+		model.addRow(new String[] {"12.08.2015", "Ölwechsel", "Huber"});
+		model.addRow(new String[] {"12.08.2015", "Ölwechsel", "Huber"});
+		model.addRow(new String[] {"12.08.2015", "Ölwechsel", "Huber"});
+		model.addRow(new String[] {"12.08.2015", "Ölwechsel", "Huber"});
+		model.addRow(new String[] {"12.08.2015", "Ölwechsel", "Huber"});
+		model.addRow(new String[] {"12.08.2015", "Ölwechsel", "Huber"});
 		
 		table = new JTable(model);
 		JTableHeader tableHeader = table.getTableHeader();
 		tableHeader.setFont(new Font("Arial", Font.BOLD, 13));
 		scrollPane = new JScrollPane(table);
-
         this.add(scrollPane, BorderLayout.CENTER);
 	
+		
+	} // Konstruktor ende
+
+	private void completeTableWithFahrzeugData(Fahrzeug pAktuellesFahrzeug,
+			DefaultTableModel model2, int languageType) {
 		
 	}
 

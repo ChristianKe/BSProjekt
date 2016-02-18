@@ -39,7 +39,7 @@ import Database.DatabaseStorage;
 
 import com.mysql.jdbc.StringUtils;
 
-public class NFF extends JFrame {
+public class NeuesFahrzeugFrame extends JFrame {
 	
 	private static final String[] BILDERPFAD = {"src\\PicRessources\\englisch.jpg", "src\\PicRessources\\deutsch.jpg", "src\\PicRessources\\infoIcon.jpg"};
 
@@ -78,7 +78,7 @@ public class NFF extends JFrame {
 
 	
 	// Konstruktor
-	public NFF(int breite, int hoehe, int languageType) {
+	public NeuesFahrzeugFrame(int breite, int hoehe, int languageType) {
 		// breite, hoehe
 		this.setSize(breite, hoehe);
 		// zentrieren
@@ -86,7 +86,6 @@ public class NFF extends JFrame {
 		// Titel
 		this.setTitle(LR.NEUESFAHRZEUG[0][languageType]);
 		
-		//this.setLayout(new BorderLayout());
 		Container contentPane = getContentPane();
 		JTabbedPane tabbed = new JTabbedPane();
 		
@@ -291,7 +290,7 @@ public class NFF extends JFrame {
 						confirmationMessage(languageType, inputData);
 						closeNeuesFahrzeug();
 					} else {
-						// abspeichern nicht m�glich
+						// abspeichern nicht möglich //TODO FIXME
 						JOptionPane.showMessageDialog(null,LR.MELDUNG[4][languageType], null, JOptionPane.WARNING_MESSAGE);
 					}
 				} else {
@@ -361,7 +360,7 @@ public class NFF extends JFrame {
 		JOptionPane.showMessageDialog(null, dialogText, null, JOptionPane.INFORMATION_MESSAGE);
 	}
 
-
+	// fügt leere Labels hinzu
 	private void addBlankoZeile(JPanel kundenPanel, int spalten) {
 		for (int i = 0; i < spalten; i++) {
 		kundenPanel.add(new JLabel());
@@ -369,7 +368,7 @@ public class NFF extends JFrame {
 	}
 
 
-	// liefert in 1000 spr�ngen Zahlen bis 1 Mio
+	// liefert in 1000 sprüngen Zahlen bis 1 Mio
 	private String[] createKilometerNumber() {
 		ArrayList<String> km = new ArrayList<>();
 		km.add("");
@@ -418,7 +417,7 @@ public class NFF extends JFrame {
 	}
 	
 	
-	// pr�ft ob alle Felder gesetzt sind
+	// prüft ob alle Felder gesetzt sind
 	private boolean checkInput(int pLanguageType, Map<Integer, String> data) {
 		boolean invalid = true;
 		for (Entry<Integer, String> vo : data.entrySet()) {

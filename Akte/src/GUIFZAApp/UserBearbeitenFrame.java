@@ -116,12 +116,12 @@ public class UserBearbeitenFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				boolean checkInput = checkInput();
-				System.out.println(checkInput);
+				System.out.println("check..." + checkInput);
 				if (checkInput) {
 					int updateUser = DatabaseStorage.updateUser(input);
 					System.out.println("UpdateUser:" + updateUser);
 					if (updateUser == 0) {
-						String bestaetigung = input.get(1) + " " + LR.USERBEARBEITEN[7][languageType];
+						String bestaetigung = input.get(1) + " " + LR.USERBEARBEITEN[3][languageType];
 						JOptionPane.showMessageDialog(null, bestaetigung , null, JOptionPane.INFORMATION_MESSAGE);
 					} else {
 						JOptionPane.showMessageDialog(null, "Problem" , null, JOptionPane.WARNING_MESSAGE);
@@ -145,6 +145,8 @@ public class UserBearbeitenFrame extends JFrame {
 		
 		String anmeldungsName = anmeldeName.getText();
 		String altesPass = altesPasswort.getText();
+		String name = LogginControl.getCurrentUser().getName();
+		String vorname = LogginControl.getCurrentUser().getVorname();
 		retval = LogginControl.login(anmeldungsName, altesPass);
 		
 		return retval;

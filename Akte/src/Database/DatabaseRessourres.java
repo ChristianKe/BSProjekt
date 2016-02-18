@@ -205,6 +205,34 @@ public class DatabaseRessourres {
         
 	    return list;
 	}
+
+
+	public static String[] getAllFahrgestellnumbers() {
+		ArrayList<String> arrayList = null;
+		ResultSet resultSet = null;
+		Connection connection = null;
+		PreparedStatement statement = null;
+
+		try {
+			connection = ConnectionUtil.getConnection();
+			StringBuilder sb = new StringBuilder();
+			sb.append("select fahrgestellNummer from fahrzeug");
+			statement = connection.prepareStatement(sb.toString());
+			resultSet = statement.executeQuery();
+
+			arrayList = new ArrayList<>();
+			arrayList.add("");
+			while (resultSet.next()) {
+				String string3 = resultSet.getString("fahrgestellNummer");
+				arrayList.add(string3);
+			}
+
+		} catch (ClassNotFoundException | SQLException | IOException e) {
+			e.printStackTrace();
+		}
+
+		return arrayList.toArray(new String[arrayList.size()]);
+	}
 	
 
 

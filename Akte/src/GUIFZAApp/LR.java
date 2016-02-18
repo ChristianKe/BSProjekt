@@ -5,7 +5,7 @@ public class LR {
 	// Deutsch/Englisch Texte
 	protected static final String[][] LANGUAGE = {{"Englisch", "Deutsch"}, {"Change to english", "Zu Deutsch wechseln"}};
 	protected static final String[] AUSSTATTUNG = {"Ausstattung", "Equipment"};
-	protected static final String[][] EXITDIALOG = {{"M�chten Sie die Anwendung wirklich beenden?", "Do you want to exit?"}, {"Abmelden", "sign off"}};
+	protected static final String[][] EXITDIALOG = {{"Möchten Sie die Anwendung beenden?", "Do you want to exit?"}, {"Abmelden", "sign off"}};
 	protected static final String[] APPLIKATIONSNAME = {"Elektronische Fahrzeugakte", "Electronic Vehicle Record"};
 	protected static final String[] AKTUELLERUSER =  {"Aktueller User:  ", "Current user: "};
 	protected static final String[][] FAHRZEUG = {{"Fahrzeug", "Vehicle"}, {"Marke:* ", "Car brand:* "},
@@ -36,7 +36,7 @@ public class LR {
 	protected static final String[][] USERGROUPS = {{"", "User", "Manager", "Admin"}, {"", "User", "Manager", "Admin"}};	
 	protected static final String[][] KUNDE = {{"Kunde", "Customer"}, {"Name:*", "Surname:*"}, {"Vorname:*", "Name:*"}, {"Firma: ", "Company: "}, {"Adresse:* ", "Address:* "}, {"PLZ:* ", "Postcode:* "}, {"Ort:* ", "Place:* "}};
 	
-	protected static final String[][] SERVICE = {{"Datum", "Date"}, {"betr. Komponeneten", "affected parts"}};
+	protected static final String[][] SERVICE = {{"Datum", "Date"}, {"betr. Komponeneten", "affected parts"}, {"Mitarbeiter", "employee"}};
 	protected static final String[][] FAHRZEUGANZEIGE = {{"Marke:", "Car brand:"},{"Baujahr:", "Year of construction:"}, {"Typ:", "Type:"},
 														{"Kilometerstand[KM]:", "Mileage[KM]:"}, {"Leistung[KW]:", "Engine power[KW]:"}, 
 														{"Kraftstoff:", "Fuel:"}, {"Model:", "Model:"}, {"Fahrgestellnummer:", "VIN:"},

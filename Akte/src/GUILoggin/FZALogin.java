@@ -124,11 +124,11 @@ public class FZALogin extends JFrame{
 			@Override
 			public void actionPerformed(final ActionEvent e) {
 
-				String nameAnmeldung = loginName.getText();
-				String passwortAnmelde = loginPassword.getText();
+//				String nameAnmeldung = loginName.getText();
+//				String passwortAnmelde = loginPassword.getText();
 				
-//				String nameAnmeldung = "admin";
-//				String passwortAnmelde = "admin";
+				String nameAnmeldung = "admin";
+				String passwortAnmelde = "admin";
 				
 				boolean anmelden = LogginControl.login(nameAnmeldung, passwortAnmelde);
 				if (anmelden) {
