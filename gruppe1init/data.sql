@@ -182,7 +182,8 @@ VALUES
 	( 'Ölwechsel' ),
 	( 'Tanken' ),
 	( 'Reifenwechsel' ),
-	( 'Motortausch' );
+	( 'Motortausch' ),
+	( 'TÜV' );
 	
 	
 -- -----------------------------------------------------
@@ -245,3 +246,4 @@ CALL addVehicle( '2002',
                  75,
                  1,
                  'M-AB12');
+                 
